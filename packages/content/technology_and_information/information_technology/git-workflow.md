@@ -78,9 +78,9 @@ Closes: https://github.com/tyler555g/best-practices/issues/12
 ```
 fix(postinstall): handle missing ~/.copilot directory gracefully
 
-Reported on Windows where the directory may not exist until first Copilot CLI
-run. Without this fix, the injection step would throw ENOENT and abort the
-entire postinstall.
+Reported on Windows where the directory may not exist until
+first Copilot CLI run. Without this fix, the injection step would
+throw ENOENT and abort the entire postinstall.
 ```
 
 ```
