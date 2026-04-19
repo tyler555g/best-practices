@@ -142,28 +142,28 @@ They may be narrowed, extended, or overridden **only by a human**, in writing, f
 
 | Tool | File / Method |
 |---|---|
-| [GitHub Copilot CLI](https://github.com/github/gh-copilot) | `~/.copilot/copilot-instructions.md` — loaded every session |
-| [Claude Code](https://github.com/anthropics/claude-code) | `CLAUDE.md` in project root (project) or `~/.claude/CLAUDE.md` (global) |
-| [Aider](https://aider.chat) | `.aider.conf.yml` → `system_prompt:` or `--system-prompt` flag |
+| [GitHub Copilot CLI](https://github.com/github/copilot-cli) | `.github/copilot-instructions.md` in repo root |
+| [Claude Code](https://github.com/anthropics/claude-code) | `CLAUDE.md` or `.claude/CLAUDE.md` in project root (project), `~/.claude/CLAUDE.md` (global) |
+| [Aider](https://aider.chat) | `.aider.conf.yml` → `read:` to include instruction files (e.g., `CONVENTIONS.md`) |
 
 **IDE / Editor plugins**
 
 | Tool | File / Method |
 |---|---|
 | [GitHub Copilot (VS Code, JetBrains)](https://github.com/features/copilot) | `.github/copilot-instructions.md` in repo root |
-| [Cursor](https://cursor.com) | `.cursorrules` in project root or Settings → General → Rules for AI |
+| [Cursor](https://www.cursor.com) | `.cursorrules` in project root or Settings → General → Rules for AI |
 | [Windsurf](https://codeium.com/windsurf) | `.windsurfrules` in project root or Global Settings → AI Rules |
 | [Continue.dev](https://continue.dev) | `~/.continue/config.json` → `"systemMessage"` field |
-| [Cline](https://github.com/clinebot/cline) | `.clinerules` in project root |
+| [Cline](https://github.com/clinebot/cline) | `.clinerules/` directory in project root (containing `.md` or `.txt` files) |
 
 **Desktop / Web apps**
 
 | Tool | Method |
 |---|---|
-| [Claude Desktop](https://claude.ai/desktop) | Settings → Profile → Custom Instructions |
+| [Claude Desktop](https://claude.ai) | Settings → Custom Instructions |
 | [ChatGPT](https://chat.openai.com) | Settings → Personalization → Custom Instructions |
-| [Microsoft Copilot](https://copilot.microsoft.com) | Agent system prompt in configuration |
-| [Gemini](https://gemini.google.com) | Custom instructions (where available) |
+| [Microsoft Copilot](https://copilot.microsoft.com) | Limited consumer customization; enterprise via Microsoft 365 Admin Center |
+| [Gemini](https://gemini.google.com) | Settings → Custom Instructions (availability varies by region) |
 
 **API / Programmatic**
 
