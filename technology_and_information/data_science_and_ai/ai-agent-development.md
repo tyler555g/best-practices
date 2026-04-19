@@ -30,6 +30,30 @@ Copilot-Session: <session-id>
 - Attribute sub-agents separately if they performed distinct work
 - Reference frameworks and methodologies used (with links to original sources)
 
+## AI-Assisted Coding Workflow
+
+### Human Review is Required
+
+**Always review AI-generated output before considering it complete.**
+
+- AI produces a first draft — you are the final decision-maker
+- Review diffs, PRs, and generated files before approving or merging
+- Do not rely on the AI's own "verification" as a substitute for your own eyes
+
+### You Tag, Not the AI
+
+**Never let AI tag repo owners, maintainers, or reviewers on a PR/issue.**
+
+- AI should open PRs as **draft** or leave them requiring your explicit promotion
+- You decide when work is ready for external review
+- You @mention maintainers and add reviewers — not the AI
+- This prevents unsolicited pings and represents you professionally
+
+### Workflow Pattern
+```
+AI implements → you review → you decide it's ready → you tag maintainer
+```
+
 ## Open Source AI Projects
 
 - Contribute improvements back to upstream before publishing independently
