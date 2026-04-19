@@ -110,7 +110,7 @@ Required for Linux kernel contributions; recommended for any open-source project
 Reference the exact commit that introduced the bug. Use at least 12 SHA characters:
 
 ```
-Fixes: 54a4f0239f2e ("subsystem: description of the buggy commit")
+Fixes: 54a4f0239f2e ("type(scope): description of the buggy commit")
 ```
 
 Git config shortcut:
@@ -142,7 +142,7 @@ Link: https://lore.kernel.org/...                   # reference a discussion
 - **Commit body** — `Link:` trailer or inline URL for the specific change
 - **Merge commit message** — summarize the decision rationale and list key references when integrating a feature branch
 - **CHANGELOG / changeset** — surface decisions at the version level
-- **ADR markdown** (e.g., `docs/decisions/001-use-npm-workspaces.md`) — for long-lived architectural decisions that need their own document
+- **ADR markdown** (e.g., `docs/decisions/001_use_npm_workspaces.md`) — for long-lived architectural decisions that need their own document
 
 ```
 feat: switch to npm workspaces monorepo
@@ -157,7 +157,7 @@ Chose (b) — minimal tooling overhead, native npm support, DRY.
 
 Link: https://docs.npmjs.com/cli/v10/using-npm/workspaces
 Link: https://snyk.io/blog/best-practices-create-modern-npm-package/
-ADR: docs/decisions/001-monorepo-workspaces.md
+ADR: docs/decisions/001_monorepo_workspaces.md
 ```
 
 ---
@@ -211,7 +211,7 @@ git bisect reset                # return to HEAD
 ### git blame — understand *why*, not who to blame
 
 ```bash
-git blame -L 42,60 src/postinstall.js   # show line history for lines 42-60
+git blame -L 42,60 scripts/postinstall.js   # show line history for lines 42-60
 ```
 
 `git blame` traces who last changed each line and in which commit.
@@ -252,7 +252,10 @@ Benefits: explicit version categorization, auto-generated changelogs, rollback t
 npm install --save-dev @commitlint/cli @commitlint/config-conventional
 ```
 ```js
-// commitlint.config.js
+// commitlint.config.js (CommonJS — default, no "type":"module" in package.json)
+module.exports = { extends: ['@commitlint/config-conventional'] };
+
+// commitlint.config.js (ESM — when package.json has "type":"module")
 export default { extends: ['@commitlint/config-conventional'] };
 ```
 
