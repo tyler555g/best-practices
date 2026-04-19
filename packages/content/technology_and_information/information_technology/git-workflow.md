@@ -7,6 +7,7 @@
 - **Never rebase public/shared history** — only rebase local, unpushed branches; rebasing published commits destroys provenance and Signed-off-by traceability
 - **Always merge to sync, never rebase shared branches** — preserve original commits; resolve conflicts explicitly so every integration is intentional and traceable
 - **Always use merge requests / PRs** — no direct pushes to protected branches
+- **Squash PRs with messy branch history** — use "Squash and merge" when the branch has WIP, fixup!, or interim commits that don't individually belong in the permanent history; the squashed commit must have a well-crafted message following the Commit Message Format above
 - **Merge commits represent real integration points** — merging a feature branch into `main` or an integration branch; avoid noise merges just to sync with upstream
 - **Always include references** for architectural/engineering decisions — in commit body, merge commit message, changelog, or an ADR markdown file
 
@@ -178,9 +179,27 @@ ADR: docs/decisions/001_monorepo_workspaces.md
 | Situation | Use |
 |---|---|
 | Local unpushed branch cleanup | `git rebase` ✅ |
-| Integrating feature → main | Merge commit ✅ |
+| Integrating feature → main (clean commits) | Merge commit ✅ |
+| Integrating feature → main (messy/WIP commits) | Squash merge ✅ |
 | Syncing with upstream (pull) | `git merge` (or `git pull --no-rebase`) ✅ |
 | Any published/shared commit | **Never rebase** ❌ |
+
+### Squash Merge Strategy
+
+Squash merging collapses all commits on a feature branch into a single commit on `main`,
+keeping the permanent history clean and bisectable regardless of how the branch was worked.
+
+**Use squash merge when:**
+- The branch has WIP, fixup!, "oops", or interim commits that only made sense during development
+- The branch history is noisy but the end result is a single logical change
+
+**Use a regular merge commit when:**
+- Every commit on the branch is well-crafted, bisectable, and represents a distinct logical change worth preserving individually
+
+**The squashed commit must follow the Commit Message Format** — it replaces the entire
+branch history on `main`, so it carries the full accountability burden. GitHub pre-fills
+the squash commit message from the PR title and description; write those as if they are
+the commit message.
 
 > *"The whole point of a distributed SCM is that you can track merges and have a historic record of exactly how things happened."*
 > — Linus Torvalds
