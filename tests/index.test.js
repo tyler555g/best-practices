@@ -46,6 +46,21 @@ test('ai-human-interaction-defaults.md contains all 10 rules', () => {
   }
 });
 
+test('agents directory exists in content package', () => {
+  const agentsDir = path.join(CONTENT_ROOT, 'agents');
+  assert.ok(fs.existsSync(agentsDir), 'agents/ directory missing from content package');
+});
+
+test('rubber_duck_agent.md exists in agents directory', () => {
+  const agent = path.join(CONTENT_ROOT, 'agents', 'rubber_duck_agent.md');
+  assert.ok(fs.existsSync(agent), 'rubber_duck_agent.md missing from agents/');
+});
+
+test('code_review_agent.md exists in agents directory', () => {
+  const agent = path.join(CONTENT_ROOT, 'agents', 'code_review_agent.md');
+  assert.ok(fs.existsSync(agent), 'code_review_agent.md missing from agents/');
+});
+
 test('postinstall.js does not hardcode AI defaults block', () => {
   const postinstall = path.join(__dirname, '..', 'scripts', 'postinstall.js');
   const content = fs.readFileSync(postinstall, 'utf8');

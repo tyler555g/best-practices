@@ -138,6 +138,12 @@ async function main() {
   }
 
   let totalFiles = 0;
+
+  // Copy agents/ directory
+  const agentsSrc = path.join(CONTENT_ROOT, 'agents');
+  if (fs.existsSync(agentsSrc)) {
+    totalFiles += copyDirSync(agentsSrc, path.join(target, 'agents'));
+  }
   for (const domainId of chosen) {
     const src = path.join(CONTENT_ROOT, domainId);
     if (fs.existsSync(src)) {

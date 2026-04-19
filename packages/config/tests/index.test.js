@@ -27,6 +27,10 @@ test('content package resolves from config package', () => {
   assert.ok(fs.existsSync(CONTENT_ROOT), `Content root not found: ${CONTENT_ROOT}`);
 });
 
+test('agents directory accessible via content package', () => {
+  assert.ok(fs.existsSync(path.join(CONTENT_ROOT, 'agents')), 'agents/ directory missing from content package');
+});
+
 test('SKILL.md accessible via content package', () => {
   assert.ok(fs.existsSync(path.join(CONTENT_ROOT, 'SKILL.md')));
 });
