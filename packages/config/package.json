@@ -1,0 +1,42 @@
+{
+  "name": "@tyler555g/best-practices-config",
+  "version": "0.1.0",
+  "description": "Best-practices knowledge base — explicit CI/Docker/per-repo installer (no postinstall home-dir writes)",
+  "keywords": [
+    "best-practices",
+    "knowledge-base",
+    "ai-skills",
+    "copilot",
+    "claude",
+    "standards",
+    "ethics",
+    "ci",
+    "docker"
+  ],
+  "homepage": "https://github.com/tyler555g/best-practices",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tyler555g/best-practices.git",
+    "directory": "packages/config"
+  },
+  "license": "MIT",
+  "author": "tyler555g",
+  "bin": {
+    "best-practices-config": "bin/setup.js"
+  },
+  "files": [
+    "SKILL.md",
+    "README.md",
+    "categories.md",
+    "bin/",
+    "scripts/",
+    "technology_and_information/"
+  ],
+  "scripts": {
+    "setup": "node bin/setup.js setup",
+    "prepack": "node scripts/prepare.js"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
