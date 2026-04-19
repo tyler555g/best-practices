@@ -5,7 +5,7 @@
 - **One logical change per commit** — if your commit message description gets long, that's a sign the commit should be split
 - **Every commit must be bisectable** — each commit must independently build and pass tests; `git bisect` depends on this
 - **Never rebase public/shared history** — only rebase local, unpushed branches; rebasing published commits destroys provenance and Signed-off-by traceability
-- **Syncing feature branches: `git pull --rebase` or `git pull --ff-only`** — keep feature branch history linear; reserve merge commits for real integration points
+- **Always merge to sync, never rebase shared branches** — preserve original commits; resolve conflicts explicitly so every integration is intentional and traceable
 - **Always use merge requests / PRs** — no direct pushes to protected branches
 - **Merge commits represent real integration points** — merging a feature branch into `main` or an integration branch; avoid noise merges just to sync with upstream
 - **Always include references** for architectural/engineering decisions — in commit body, merge commit message, changelog, or an ADR markdown file
@@ -39,6 +39,7 @@ Co-authored-by: Name <email>
 - **Body explains the *why***, not just the *what*: describe the problem, its impact, and why this approach was chosen
 - **Quantify** performance/memory improvements with actual numbers
 - **Self-contained**: the commit + its message should be understandable without referencing external URLs
+- **Long paths/URLs** — exempt from the 75-column wrap; break *before* them if possible, never mid-path or mid-URL
 
 ### Conventional Commits Mapping
 
@@ -62,13 +63,14 @@ Follow **[Conventional Commits 1.0.0](https://www.conventionalcommits.org/en/v1.
 ```
 feat(skills): add GitHub Copilot CLI support
 
-Previously the postinstall only targeted Claude Code (~/.claude). Copilot CLI
-stores its instructions in ~/.copilot/copilot-instructions.md. Without injection
-there, Copilot users had to configure defaults manually on every machine.
+Previously the postinstall only targeted Claude Code (~/.claude).
+Copilot CLI stores instructions in ~/.copilot/copilot-instructions.md.
+Without injection there, Copilot users had to configure defaults
+manually on every machine.
 
-This adds idempotent injection using the same marker-based block system used
-for CLAUDE.md, ensuring the 10 AI-human interaction rules are applied to both
-tools on install.
+This adds idempotent injection using the same marker-based block
+system used for CLAUDE.md, ensuring the 10 AI-human interaction
+rules are applied to both tools on install.
 
 Closes: https://github.com/tyler555g/best-practices/issues/12
 ```
@@ -185,7 +187,10 @@ ADR: docs/decisions/001_monorepo_workspaces.md
 
 Default config:
 ```bash
-git config --global pull.rebase false   # always merge on pull
+# Always merge on pull — preserves original commits and makes every
+# conflict resolution explicit. Overlapping changes must be handled
+# case-by-case, whether by a human or an AI tool.
+git config --global pull.rebase false
 git config --global init.defaultBranch main
 ```
 
