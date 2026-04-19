@@ -181,12 +181,35 @@ getting_started.md
 
 ---
 
+## Install as an AI Agent Skill
+
+```bash
+npm install @tyler.given/best-practices
+```
+
+This will:
+1. Install the `best-practices` skill into detected AI tool directories (`~/.copilot/skills/`, `~/.claude/skills/`)
+2. Inject AI-human interaction defaults into `~/.claude/CLAUDE.md` (idempotently)
+3. Ship all currently populated domain content (technology & information)
+
+### Interactive Domain Setup
+
+```bash
+npx @tyler.given/best-practices setup
+```
+
+Choose which domains to install to your AI agent skills directories. Re-run anytime to change your selection.
+
+---
+
 ## Contributing
 
 1. Find the correct `top-level/subdiscipline/` directory
 2. Create or edit a `.md` file with a clear, descriptive name
 3. Follow the content guidelines above
 4. If a discipline is missing entirely, propose it — the structure is intentionally extensible
+5. Use **feature branches** and **draft PRs** — never push directly to `main`
+6. Use **Conventional Commits**: `feat:`, `fix:`, `docs:`, `chore:`, etc.
 
 ---
 

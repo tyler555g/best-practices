@@ -1,0 +1,56 @@
+{
+  "name": "@tyler.given/best-practices",
+  "version": "0.1.0",
+  "description": "Comprehensive best-practices knowledge base — installable as an AI agent skill with auto-injection of defaults into Copilot CLI and Claude Code",
+  "keywords": [
+    "best-practices",
+    "knowledge-base",
+    "ai-skills",
+    "copilot",
+    "claude",
+    "standards",
+    "ethics",
+    "sustainability",
+    "git-workflow"
+  ],
+  "homepage": "https://github.com/tyler555g/best-practices",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tyler555g/best-practices.git"
+  },
+  "license": "MIT",
+  "author": "tyler555g",
+  "bin": {
+    "best-practices": "bin/best-practices.js"
+  },
+  "main": "bin/best-practices.js",
+  "files": [
+    "README.md",
+    "bin/",
+    "scripts/"
+  ],
+  "scripts": {
+    "postinstall": "node scripts/postinstall.js",
+    "setup": "node bin/best-practices.js setup",
+    "test": "node --test tests/**/*.test.js tests/*.test.js",
+    "release": "changeset publish --access public",
+    "audit:deps": "npm audit --audit-level=moderate"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@tyler.given/best-practices-content": "*"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "@changesets/cli": "^2.31.0",
+    "@commitlint/cli": "^20.5.0",
+    "@commitlint/config-conventional": "^20.5.0"
+  }
+}
