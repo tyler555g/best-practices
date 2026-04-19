@@ -184,8 +184,10 @@ getting_started.md
 ## Install as an AI Agent Skill
 
 ```bash
-npm install @tyler.given/best-practices
+npm install "@tyler.given/best-practices"
 ```
+
+> **PowerShell users:** The `@` in scoped package names must be quoted, otherwise PowerShell treats it as a splatting operator. Always wrap the package name in quotes.
 
 This will:
 1. Install the `best-practices` skill into detected AI tool directories (`~/.copilot/skills/`, `~/.claude/skills/`)
@@ -195,7 +197,7 @@ This will:
 ### Interactive Domain Setup
 
 ```bash
-npx @tyler.given/best-practices setup
+npx "@tyler.given/best-practices" setup
 ```
 
 Choose which domains to install to your AI agent skills directories. Re-run anytime to change your selection.
