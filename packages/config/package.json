@@ -29,12 +29,10 @@
     "README.md",
     "categories.md",
     "bin/",
-    "scripts/",
     "technology_and_information/"
   ],
   "scripts": {
-    "setup": "node bin/setup.js setup",
-    "prepack": "node scripts/prepare.js"
+    "setup": "node bin/setup.js setup"
   },
   "engines": {
     "node": ">=22"
