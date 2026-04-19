@@ -54,6 +54,22 @@ Copilot-Session: <session-id>
 AI implements → you review → you decide it's ready → you tag maintainer
 ```
 
+### Best-Practices Repo Changes
+
+All additions to the `best-practices` repo go through a **feature branch + draft PR**:
+
+- Branch naming: `feat/<topic>` or `docs/<topic>`
+- Open a **draft PR** so you can review the diff before merging
+- You promote draft → ready and merge yourself — AI never merges or tags reviewers
+- This keeps the repo history clean and every change intentionally reviewed
+
+```bash
+git checkout -b feat/<topic>
+# make changes, commit
+git push -u origin feat/<topic>
+gh pr create --draft --title "<title>" --body "<body>"
+```
+
 ## Open Source AI Projects
 
 - Contribute improvements back to upstream before publishing independently
