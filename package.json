@@ -1,5 +1,5 @@
 {
-  "name": "@tyler555g/best-practices",
+  "name": "@tyler.given/best-practices",
   "version": "0.1.0",
   "description": "Comprehensive best-practices knowledge base — installable as an AI agent skill with auto-injection of defaults into Copilot CLI and Claude Code",
   "keywords": [
@@ -40,7 +40,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@tyler555g/best-practices-content": "*"
+    "@tyler.given/best-practices-content": "*"
   },
   "engines": {
     "node": ">=22"

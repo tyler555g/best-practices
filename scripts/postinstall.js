@@ -8,7 +8,7 @@ const os = require('os');
 const readline = require('readline');
 
 const PKG_ROOT = path.join(__dirname, '..');
-const CONTENT_ROOT = path.dirname(require.resolve('@tyler555g/best-practices-content/package.json'));
+const CONTENT_ROOT = path.dirname(require.resolve('@tyler.given/best-practices-content/package.json'));
 const HOME = os.homedir();
 const IS_CI = Boolean(process.env.CI);
 
@@ -201,7 +201,7 @@ async function main() {
     console.log("   Install manually: copy the best-practices folder to your agent's skills directory.");
   }
 
-  console.log('\n📚 Run `npx @tyler555g/best-practices setup` to choose additional domains.');
+  console.log('\n📚 Run `npx @tyler.given/best-practices setup` to choose additional domains.');
 }
 
 main().catch(err => {

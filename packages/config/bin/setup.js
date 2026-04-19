@@ -1,14 +1,14 @@
 #!/usr/bin/env node
-// Explicit setup CLI for @tyler555g/best-practices-config
+// Explicit setup CLI for @tyler.given/best-practices-config
 // Safe for CI, Docker, and per-repo devDependency use — no home-dir writes.
-// Usage: npx @tyler555g/best-practices-config setup [--target <dir>]
+// Usage: npx @tyler.given/best-practices-config setup [--target <dir>]
 
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
 const readline = require('readline');
 
-const CONTENT_ROOT = path.dirname(require.resolve('@tyler555g/best-practices-content/package.json'));
+const CONTENT_ROOT = path.dirname(require.resolve('@tyler.given/best-practices-content/package.json'));
 const HOME = os.homedir();
 const IS_CI = Boolean(process.env.CI);
 
@@ -65,7 +65,7 @@ async function main() {
   const args = process.argv.slice(2);
 
   if (args[0] !== 'setup') {
-    console.log('Usage: npx @tyler555g/best-practices-config setup [--target <dir>]');
+    console.log('Usage: npx @tyler.given/best-practices-config setup [--target <dir>]');
     console.log('\nInstall best-practices content to a specified directory (or current directory).');
     console.log('Safe for CI and Docker — no home-directory writes.');
     process.exit(0);
@@ -146,7 +146,7 @@ async function main() {
   }
 
   console.log(`\n✅ Installed ${chosen.length} domain(s) (${totalFiles} files) → ${target}`);
-  console.log('\n   Re-run anytime: npx @tyler555g/best-practices-config setup --target <dir>\n');
+  console.log('\n   Re-run anytime: npx @tyler.given/best-practices-config setup --target <dir>\n');
 }
 
 main().catch(err => {

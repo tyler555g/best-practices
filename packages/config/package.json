@@ -1,5 +1,5 @@
 {
-  "name": "@tyler555g/best-practices-config",
+  "name": "@tyler.given/best-practices-config",
   "version": "0.1.0",
   "description": "Best-practices knowledge base — explicit CI/Docker/per-repo installer (no postinstall home-dir writes)",
   "keywords": [
@@ -38,7 +38,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@tyler555g/best-practices-content": "*"
+    "@tyler.given/best-practices-content": "*"
   },
   "engines": {
     "node": ">=22"

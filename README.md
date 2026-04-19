@@ -184,7 +184,7 @@ getting_started.md
 ## Install as an AI Agent Skill
 
 ```bash
-npm install @tyler555g/best-practices
+npm install @tyler.given/best-practices
 ```
 
 This will:
@@ -195,7 +195,7 @@ This will:
 ### Interactive Domain Setup
 
 ```bash
-npx @tyler555g/best-practices setup
+npx @tyler.given/best-practices setup
 ```
 
 Choose which domains to install to your AI agent skills directories. Re-run anytime to change your selection.

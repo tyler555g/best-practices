@@ -1,4 +1,4 @@
-// Tests for @tyler555g/best-practices
+// Tests for @tyler.given/best-practices
 // Uses Node.js built-in test runner (node --test).
 // See: https://nodejs.org/docs/latest-v22.x/api/test.html
 
@@ -7,7 +7,7 @@ const assert = require('node:assert/strict');
 const path = require('path');
 const fs = require('fs');
 
-const CONTENT_ROOT = path.dirname(require.resolve('@tyler555g/best-practices-content/package.json'));
+const CONTENT_ROOT = path.dirname(require.resolve('@tyler.given/best-practices-content/package.json'));
 
 test('content package resolves correctly', () => {
   assert.ok(fs.existsSync(CONTENT_ROOT), `Content root not found: ${CONTENT_ROOT}`);
