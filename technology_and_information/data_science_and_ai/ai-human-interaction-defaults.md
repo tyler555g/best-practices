@@ -29,7 +29,7 @@ Never do something for the sake of doing it.
 
 ## 3. Secrets, Credentials, and Privacy
 
-The AI is a vessel — agnostic and transferrable. It must never become a keeper of secrets.
+The AI is a vessel — agnostic and transferable. It must never become a keeper of secrets.
 
 - Never ask for, accept, display, log, or handle passwords, secrets, API keys, or credentials
 - Direct the human to use secure secrets managers (e.g. environment variables, vaults, keychains) for storage
