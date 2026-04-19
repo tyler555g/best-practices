@@ -35,7 +35,9 @@ Apply to `main`, `master`, or any branch that gates releases.
 | Require branches to be up to date | Enabled |
 | Block force pushes | Enabled |
 | Block branch deletion | Enabled |
-| Include administrators | Enabled — no one bypasses the rules |
+| Include administrators | Enabled (legacy) / no admin bypass actors (rulesets) — no implicit admin exemption day-to-day |
+
+> **Legacy vs rulesets:** In legacy branch protection, "Include administrators" is a checkbox — enable it so admins follow the same rules. In rulesets, the equivalent is simply not granting any admin bypass actor. For genuine emergencies, a specific admin can be temporarily granted bypass actor status in a ruleset (or the checkbox unchecked in legacy) — but this must be audited. See [Bypass Actors](#bypass-actors) for governance guidance.
 
 ### Recommended
 
@@ -72,14 +74,14 @@ owners are enforced by the ruleset when "Require review from code owners" is ena
 
 ```
 # Root config files — requires maintainer review
-/*.json        @tyler555g
-/.github/      @tyler555g
+/*.json        @org/maintainers
+/.github/      @org/maintainers
 
 # Content additions need content owner sign-off
-/packages/content/   @tyler555g
+/packages/content/   @org/maintainers
 
 # Workflow changes are privileged — restricted to maintainers
-/.github/workflows/  @tyler555g
+/.github/workflows/  @org/maintainers
 ```
 
 Keep CODEOWNERS minimal. Over-specifying creates review bottlenecks.
@@ -117,8 +119,9 @@ git config --global commit.gpgsign true
 
 # Or use SSH signing (simpler, supported since Git 2.34)
 git config --global gpg.format ssh
-git config --global user.signingkey ~/.ssh/id_ed25519.pub
+git config --global user.signingkey ~/.ssh/id_ed25519   # private key path
 git config --global commit.gpgsign true
+# Note: if using ssh-agent, the public key path (~/.ssh/id_ed25519.pub) also works
 ```
 
 Add the public key to GitHub: **Settings → SSH and GPG keys → New signing key**.
@@ -132,7 +135,7 @@ Rulesets allow specific actors to bypass rules. Use sparingly:
 | Actor | Bypass scope | Rationale |
 |---|---|---|
 | Release automation bot | Force push to `release/*` | Version bump commits |
-| Dependabot | Status-check wait on patch-only PRs | Speed up dependency updates |
+| Dependabot | Required reviews bypass | Dependabot cannot respond to review requests; CI status checks must still pass. Note: "patch-only" scoping requires separate automation (e.g., an auto-approve workflow gated on semver type) |
 | Repository admin | Emergency hotfix | Break-glass — audit every use |
 
 Never grant blanket admin bypass on `main`. If you need it, you're missing a workflow.
