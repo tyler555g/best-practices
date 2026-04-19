@@ -18,7 +18,7 @@ const SKILL_TARGETS = [
 ];
 
 // Content dirs to install (only those that exist in the package)
-const CONTENT_DIRS = ['technology_and_information'];
+const CONTENT_DIRS = ['technology_and_information', 'agents'];
 const STANDALONE_FILES = ['SKILL.md', 'README.md', 'categories.md'];
 
 // --- Helpers ---
