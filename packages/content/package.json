@@ -1,0 +1,32 @@
+{
+  "name": "@tyler555g/best-practices-content",
+  "version": "0.1.0",
+  "description": "Best-practices knowledge base content — markdown reference files for all domains",
+  "keywords": [
+    "best-practices",
+    "knowledge-base",
+    "ai-skills",
+    "standards",
+    "ethics",
+    "sustainability"
+  ],
+  "homepage": "https://github.com/tyler555g/best-practices",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tyler555g/best-practices.git",
+    "directory": "packages/content"
+  },
+  "license": "MIT",
+  "author": "tyler555g",
+  "files": [
+    "SKILL.md",
+    "categories.md",
+    "technology_and_information/"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

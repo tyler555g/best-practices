@@ -9,7 +9,7 @@ const readline = require('readline');
 
 const HOME = os.homedir();
 const CONFIG_FILE = path.join(HOME, '.best-practices.json');
-const PKG_ROOT = path.join(__dirname, '..');
+const CONTENT_ROOT = path.dirname(require.resolve('@tyler555g/best-practices-content/package.json'));
 
 // All 10 domains — matches README.md structure
 const DOMAINS = [
@@ -63,7 +63,7 @@ function copyDirSync(src, dest) {
 }
 
 function hasDomainContent(domainId) {
-  const domainPath = path.join(PKG_ROOT, domainId);
+  const domainPath = path.join(CONTENT_ROOT, domainId);
   if (!fs.existsSync(domainPath)) return false;
   function hasMarkdown(dir) {
     for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -83,7 +83,7 @@ function installDomains(domainIds) {
   for (const target of SKILL_TARGETS) {
     if (!fs.existsSync(path.dirname(path.dirname(target)))) continue;
     for (const domainId of domainIds) {
-      const src = path.join(PKG_ROOT, domainId);
+      const src = path.join(CONTENT_ROOT, domainId);
       if (fs.existsSync(src)) {
         const dest = path.join(target, domainId);
         totalFiles += copyDirSync(src, dest);

@@ -8,6 +8,7 @@ const os = require('os');
 const readline = require('readline');
 
 const PKG_ROOT = path.join(__dirname, '..');
+const CONTENT_ROOT = path.dirname(require.resolve('@tyler555g/best-practices-content/package.json'));
 const HOME = os.homedir();
 const IS_CI = Boolean(process.env.CI);
 
@@ -102,7 +103,7 @@ function injectOrRepair(filePath, content, block, startMarker, endMarker, alread
 const AI_DEFAULTS_MARKER_START = '<!-- ai-human-defaults -->';
 const AI_DEFAULTS_MARKER_END = '<!-- /ai-human-defaults -->';
 const AI_DEFAULTS_SOURCE = path.join(
-  PKG_ROOT,
+  CONTENT_ROOT,
   'technology_and_information',
   'data_science_and_ai',
   'ai-human-interaction-defaults.md'
@@ -130,7 +131,7 @@ async function main() {
 
     // Copy standalone files with overwrite protection
     for (const file of STANDALONE_FILES) {
-      const src = path.join(PKG_ROOT, file);
+      const src = path.join(CONTENT_ROOT, file);
       const dest = path.join(skillDir, file);
       if (!fs.existsSync(src)) continue;
 
@@ -159,7 +160,7 @@ async function main() {
 
     // Copy content directories (always update — versioned reference files)
     for (const dir of CONTENT_DIRS) {
-      const src = path.join(PKG_ROOT, dir);
+      const src = path.join(CONTENT_ROOT, dir);
       if (fs.existsSync(src)) {
         copyDirSync(src, path.join(skillDir, dir));
       }

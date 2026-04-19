@@ -8,7 +8,7 @@ const path = require('path');
 const os = require('os');
 const readline = require('readline');
 
-const PKG_ROOT = path.join(__dirname, '..');
+const CONTENT_ROOT = path.dirname(require.resolve('@tyler555g/best-practices-content/package.json'));
 const HOME = os.homedir();
 const IS_CI = Boolean(process.env.CI);
 
@@ -46,7 +46,7 @@ function copyDirSync(src, dest) {
 }
 
 function hasDomainContent(domainId) {
-  const domainPath = path.join(PKG_ROOT, domainId);
+  const domainPath = path.join(CONTENT_ROOT, domainId);
   if (!fs.existsSync(domainPath)) return false;
   function hasMarkdown(dir) {
     for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -131,7 +131,7 @@ async function main() {
 
   // Copy SKILL.md + categories.md
   for (const file of ['SKILL.md', 'README.md', 'categories.md']) {
-    const src = path.join(PKG_ROOT, file);
+    const src = path.join(CONTENT_ROOT, file);
     if (fs.existsSync(src)) {
       fs.copyFileSync(src, path.join(target, file));
     }
@@ -139,7 +139,7 @@ async function main() {
 
   let totalFiles = 0;
   for (const domainId of chosen) {
-    const src = path.join(PKG_ROOT, domainId);
+    const src = path.join(CONTENT_ROOT, domainId);
     if (fs.existsSync(src)) {
       totalFiles += copyDirSync(src, path.join(target, domainId));
     }

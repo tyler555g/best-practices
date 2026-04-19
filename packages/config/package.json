@@ -24,15 +24,21 @@
   "bin": {
     "best-practices-config": "bin/setup.js"
   },
+  "main": "bin/setup.js",
   "files": [
-    "SKILL.md",
     "README.md",
-    "categories.md",
-    "bin/",
-    "technology_and_information/"
+    "bin/"
   ],
   "scripts": {
-    "setup": "node bin/setup.js setup"
+    "setup": "node bin/setup.js setup",
+    "test": "node --test tests/",
+    "audit:deps": "npm audit --audit-level=moderate"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@tyler555g/best-practices-content": "*"
   },
   "engines": {
     "node": ">=22"

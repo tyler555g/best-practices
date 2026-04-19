@@ -23,21 +23,31 @@
   "bin": {
     "best-practices": "bin/best-practices.js"
   },
+  "main": "bin/best-practices.js",
   "files": [
-    "SKILL.md",
     "README.md",
-    "categories.md",
     "bin/",
-    "scripts/",
-    "technology_and_information/"
+    "scripts/"
   ],
   "scripts": {
     "postinstall": "node scripts/postinstall.js",
-    "setup": "node bin/best-practices.js setup"
+    "setup": "node bin/best-practices.js setup",
+    "test": "node --test tests/**/*.test.js tests/*.test.js",
+    "release": "changeset publish --access public",
+    "audit:deps": "npm audit --audit-level=moderate"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@tyler555g/best-practices-content": "*"
   },
   "engines": {
     "node": ">=22"
   },
+  "workspaces": [
+    "packages/*"
+  ],
   "devDependencies": {
     "@changesets/cli": "^2.31.0",
     "@commitlint/cli": "^20.5.0",
