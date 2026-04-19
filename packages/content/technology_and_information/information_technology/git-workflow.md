@@ -14,21 +14,23 @@
 
 ## Commit Message Format
 
-Follow the **Linux kernel commit message style** (Linus Torvalds / SubmittingPatches):
+Use **Conventional Commits** as the primary format (enforced by commitlint). The kernel-style `subsystem:` prefix maps directly to the Conventional Commits `type(scope):` pattern — the `scope` is your subsystem.
 
 ```
-subsystem: brief description of the change (≤75 chars)
+type(scope): brief description of the change (≤75 chars)
 
 Describe *why* the change is needed and what problem it solves.
 Describe user-visible impact. Quantify optimizations with numbers.
 Wrap body at 75 columns.
 
-Fixes: 54a4f0239f2e ("subsystem: description of the buggy commit")
+Fixes: 54a4f0239f2e ("type(scope): description of the buggy commit")
 Closes: https://github.com/owner/repo/issues/123
 Link: https://lore.kernel.org/... (or any discussion reference)
 Signed-off-by: Your Name <your@email.com>
 Co-authored-by: Name <email>
 ```
+
+> **Kernel analogy:** Linux uses `subsystem: description` (e.g., `net: fix null deref`). Conventional Commits adds a structured type prefix: `fix(net): fix null deref`. Both encode the same information — commitlint enforces the type; the scope names the subsystem.
 
 ### Rules
 - **Imperative mood** in the subject: "Fix null deref in…" not "Fixed…" or "Fixes…"
@@ -116,7 +118,7 @@ Git config shortcut:
 [core]
     abbrev = 12
 [pretty]
-    fixes = Fixes: %h (\"%s\")
+    fixes = Fixes: %h ("%s")
 ```
 Then: `git log -1 --pretty=fixes <sha>`
 
@@ -134,7 +136,7 @@ Link: https://lore.kernel.org/...                   # reference a discussion
 **Every architectural or engineering decision must be traceable.** Include references to:
 - The issue, ticket, or discussion that motivated the change
 - Any RFC, ADR, spec, or external standard consulted
-- Benchmark data, benchmarks methodology, or tool used
+- Benchmark data, benchmark methodology, or tool used
 
 **Where to put references:**
 - **Commit body** — `Link:` trailer or inline URL for the specific change
