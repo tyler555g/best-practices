@@ -16,11 +16,64 @@
 - Fix branches: `fix/<description>`
 - All changes enter `main` via PR only
 
-## Commit Message Standards
+## Conventional Commits
 
-- Use conventional commits: `feat:`, `fix:`, `chore:`, `docs:`, `refactor:`
+Follow the **[Conventional Commits 1.0.0](https://www.conventionalcommits.org/en/v1.0.0/)** specification for all commit messages.
+
+### Format
+```
+<type>[optional scope]: <description>
+
+[optional body]
+
+[optional footer(s)]
+```
+
+### Types
+| Type | When to use | SemVer impact |
+|---|---|---|
+| `feat` | New feature | MINOR |
+| `fix` | Bug fix | PATCH |
+| `feat!` / `BREAKING CHANGE` | Breaking API change | MAJOR |
+| `docs` | Documentation only | none |
+| `chore` | Build, tooling, maintenance | none |
+| `refactor` | Code change, no feature/fix | none |
+| `perf` | Performance improvement | none |
+| `test` | Adding/fixing tests | none |
+| `ci` | CI/CD config changes | none |
+| `style` | Formatting, whitespace | none |
+
+### Examples
+```
+feat(skills): add GitHub Copilot CLI support
+fix(postinstall): handle missing ~/.copilot directory gracefully
+docs: update README with npm install instructions
+chore: initialize changesets for version tracking
+feat!: drop Node 14 support
+
+BREAKING CHANGE: requires Node >= 16
+```
+
+### Integration with Changesets
+Conventional commits map directly to changeset bump types:
+- `feat:` → `minor` changeset
+- `fix:` → `patch` changeset
+- `feat!:` / `BREAKING CHANGE:` → `major` changeset
+
+### Enforcement: commitlint
+```bash
+npm install --save-dev @commitlint/cli @commitlint/config-conventional
+```
+```js
+// commitlint.config.js
+export default { extends: ['@commitlint/config-conventional'] };
+```
+
+## Commit Attribution
+
 - Body explains *why*, not just *what*
 - Include `Co-authored-by` trailers for collaborators and AI tools
+- Include model name, version, and session ID for AI contributions
 
 ### Attribution Trailer Format
 ```
