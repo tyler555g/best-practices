@@ -5,9 +5,9 @@
 - **One logical change per commit** — if your commit message description gets long, that's a sign the commit should be split
 - **Every commit must be bisectable** — each commit must independently build and pass tests; `git bisect` depends on this
 - **Never rebase public/shared history** — only rebase local, unpushed branches; rebasing published commits destroys provenance and Signed-off-by traceability
-- **Always: pull → resolve conflicts → push** (merge, never rebase, to resolve remote conflicts)
+- **Syncing feature branches: `git pull --rebase` or `git pull --ff-only`** — keep feature branch history linear; reserve merge commits for real integration points
 - **Always use merge requests / PRs** — no direct pushes to protected branches
-- **Merge commits represent real integration points** — not routine "keep in sync" syncs; avoid noise merges
+- **Merge commits represent real integration points** — merging a feature branch into `main` or an integration branch; avoid noise merges just to sync with upstream
 - **Always include references** for architectural/engineering decisions — in commit body, merge commit message, changelog, or an ADR markdown file
 
 ---
@@ -251,11 +251,15 @@ Benefits: explicit version categorization, auto-generated changelogs, rollback t
 ```bash
 npm install --save-dev @commitlint/cli @commitlint/config-conventional
 ```
+**CommonJS** (default — no `"type":"module"` in package.json):
 ```js
-// commitlint.config.js (CommonJS — default, no "type":"module" in package.json)
+// commitlint.config.js
 module.exports = { extends: ['@commitlint/config-conventional'] };
+```
 
-// commitlint.config.js (ESM — when package.json has "type":"module")
+**ESM** (when package.json has `"type":"module"`):
+```js
+// commitlint.config.js
 export default { extends: ['@commitlint/config-conventional'] };
 ```
 
