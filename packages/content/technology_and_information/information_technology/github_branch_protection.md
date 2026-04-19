@@ -90,8 +90,9 @@ Keep CODEOWNERS minimal. Over-specifying creates review bottlenecks.
 
 ## Status Checks
 
-Only checks that are **always** run should be required. Optional or conditional jobs cause
-false "branch not up to date" failures.
+Only checks that are **always** run should be required. Optional or conditional jobs that
+are skipped or excluded never report a status — a required check that never reports stays
+in "expected" state and blocks the PR from merging entirely.
 
 ```
 # Example: required checks in ruleset
@@ -124,7 +125,9 @@ git config --global commit.gpgsign true
 # Note: if using ssh-agent, the public key path (~/.ssh/id_ed25519.pub) also works
 ```
 
-Add the public key to GitHub: **Settings → SSH and GPG keys → New signing key**.
+Add the key to GitHub under **Settings → SSH and GPG keys**:
+- **GPG:** click **New GPG key**, paste the armored public key block
+- **SSH:** click **New SSH key**, set key type to **Signing Key**, paste the public key
 
 ---
 
