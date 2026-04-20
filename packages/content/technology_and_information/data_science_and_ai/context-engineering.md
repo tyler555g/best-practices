@@ -191,7 +191,7 @@ The primitives from [§3](#3-context-primitives-taxonomy) map to concrete implem
 
 | Primitive | Copilot | Claude Code | Cursor | Cline | Continue | Aider | Windsurf |
 |---|---|---|---|---|---|---|---|
-| **Instructions** | `copilot-instructions.md` | `CLAUDE.md` | `.cursorrules` / `.mdc` | `.clinerules/` | `config.json` | `.aider.conf.yml` | `.windsurfrules` |
+| **Instructions** | `.github/copilot-instructions.md` | `CLAUDE.md` | `.cursorrules` / `.mdc` | `.clinerules/` | `config.json` | `.aider.conf.yml` | `.windsurfrules` |
 | **Rules (scoped)** | `*.instructions.md` (glob) | `CLAUDE.md` (nested) | `.mdc` (frontmatter globs) | `.clinerules/` (dir) | — | `read:` files | — |
 | **Prompt Templates** | `.prompt.md` | — | — | — | — | — | — |
 | **Skills** | `SKILL.md` | — | — | — | — | — | — |
