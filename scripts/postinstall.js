@@ -7,21 +7,29 @@ const path = require('path');
 const os = require('os');
 const readline = require('readline');
 
-const PKG_ROOT = path.join(__dirname, '..');
-const CONTENT_ROOT = path.dirname(require.resolve('@tyler.given/best-practices-content/package.json'));
+const {
+  CONTENT_ROOT,
+  loadConfig,
+  saveConfig,
+  copyDirSync,
+  detectTargets,
+  installDomains,
+  pruneDomains,
+  selectDomains,
+} = require('./domains');
+
 const HOME = os.homedir();
 const IS_CI = Boolean(process.env.CI);
 
-const SKILL_TARGETS = [
+// Targets with friendly display names (for standalone-file overwrite prompts).
+const SKILL_TARGETS_NAMED = [
   { dir: path.join(HOME, '.copilot', 'skills'), name: 'Copilot CLI' },
-  { dir: path.join(HOME, '.claude', 'skills'), name: 'Claude Code' },
+  { dir: path.join(HOME, '.claude',   'skills'), name: 'Claude Code' },
 ];
 
-// Content dirs to install (only those that exist in the package)
-const CONTENT_DIRS = ['technology_and_information'];
 const STANDALONE_FILES = ['SKILL.md', 'README.md', 'categories.md'];
 
-// --- Helpers ---
+// --- Helpers (postinstall-specific) ---
 
 function escapeRegExp(value) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -30,23 +38,6 @@ function escapeRegExp(value) {
 function copyFileSync(src, dest) {
   fs.mkdirSync(path.dirname(dest), { recursive: true });
   fs.copyFileSync(src, dest);
-}
-
-function copyDirSync(src, dest) {
-  if (!fs.existsSync(src)) return 0;
-  fs.mkdirSync(dest, { recursive: true });
-  let count = 0;
-  for (const entry of fs.readdirSync(src, { withFileTypes: true })) {
-    const srcPath = path.join(src, entry.name);
-    const destPath = path.join(dest, entry.name);
-    if (entry.isDirectory()) {
-      count += copyDirSync(srcPath, destPath);
-    } else {
-      fs.copyFileSync(srcPath, destPath);
-      count++;
-    }
-  }
-  return count;
 }
 
 async function promptYN(question) {
@@ -117,11 +108,13 @@ function buildDefaultsBlock() {
 // --- Main (async to support interactive overwrite prompts) ---
 
 async function main() {
-  // --- 1. Install skill files to detected agent skill directories ---
+  // --- 1. Load config and install all previously selected domains ---
 
+  const config = loadConfig();
+  const targets = detectTargets();
   let skillsInstalled = 0;
 
-  for (const target of SKILL_TARGETS) {
+  for (const target of SKILL_TARGETS_NAMED) {
     const parentDir = path.dirname(target.dir);
     if (!fs.existsSync(parentDir)) continue;
 
@@ -158,16 +151,13 @@ async function main() {
       copyFileSync(src, dest);
     }
 
-    // Copy content directories (always update — versioned reference files)
-    for (const dir of CONTENT_DIRS) {
-      const src = path.join(CONTENT_ROOT, dir);
-      if (fs.existsSync(src)) {
-        copyDirSync(src, path.join(skillDir, dir));
-      }
-    }
-
     console.log(`✅ ${isFirstInstall ? 'Installed' : 'Updated'} best-practices skill → ${target.name} (${skillDir})`);
     skillsInstalled++;
+  }
+
+  // Restore all previously selected domains (respects saved config, not just hardcoded list).
+  if (targets.length > 0) {
+    installDomains(config.selectedDomains, targets);
   }
 
   // --- 2. Inject AI-human defaults into ~/.claude/CLAUDE.md ---
@@ -194,14 +184,28 @@ async function main() {
     console.log('✅ Created ~/.copilot/copilot-instructions.md with AI-human defaults');
   }
 
-  // --- 4. Summary ---
+  // --- 4. Prompt for additional domains (interactive TTY only) ---
+
+  if (targets.length > 0 && !IS_CI && process.stdin.isTTY) {
+    const wantMore = await promptYN('\nWant to install additional best-practice domains? (y/n): ');
+    if (wantMore) {
+      await selectDomains(config);
+      pruneDomains(config.selectedDomains, targets);
+      installDomains(config.selectedDomains, targets);
+      saveConfig(config);
+      console.log(`\n✅ Installed ${config.selectedDomains.length} domain(s)`);
+      console.log(`   Config saved to ~/.best-practices.json`);
+    }
+  }
+
+  // --- 5. Summary ---
 
   if (skillsInstalled === 0) {
     console.log('⚠️  No supported agent directory found (~/.copilot, ~/.claude).');
     console.log("   Install manually: copy the best-practices folder to your agent's skills directory.");
   }
 
-  console.log('\n📚 Run `npx @tyler.given/best-practices setup` to choose additional domains.');
+  console.log('\n📚 Run `npx @tyler.given/best-practices setup` anytime to change your domain selection.');
 }
 
 main().catch(err => {
