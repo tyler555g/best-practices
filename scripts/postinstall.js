@@ -11,7 +11,6 @@ const {
   CONTENT_ROOT,
   loadConfig,
   saveConfig,
-  copyDirSync,
   detectTargets,
   installDomains,
   pruneDomains,

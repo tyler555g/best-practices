@@ -44,7 +44,8 @@ function normalizeConfig(raw) {
     ...ALWAYS_INSTALLED,
     ...selected.filter(id => known.has(id)),
   ])];
-  return { ...raw, selectedDomains: normalized };
+  const baseConfig = raw && typeof raw === 'object' ? raw : {};
+  return { ...baseConfig, selectedDomains: normalized };
 }
 
 function loadConfig() {
@@ -93,7 +94,7 @@ function hasDomainContent(domainId) {
 
 // --- Install / prune ---
 
-// Returns the detected targets that actually exist (parent skills dir present).
+// Returns targets where the agent root directory exists (e.g. ~/.copilot, ~/.claude).
 function detectTargets() {
   return SKILL_TARGETS.filter(t => fs.existsSync(path.dirname(path.dirname(t))));
 }
@@ -134,7 +135,7 @@ function pruneDomains(selectedDomains, targets) {
 // --- Interactive selection ---
 
 // Presents the domain picker via readline, updates config.selectedDomains in place.
-// Caller is responsible for opening/closing the readline interface.
+// Creates and closes its own readline interface.
 async function selectDomains(config) {
   const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
   const ask = q => new Promise(resolve => rl.question(q, resolve));
