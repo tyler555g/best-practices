@@ -56,7 +56,7 @@ Reducing token consumption while preserving signal. Summarization, deduplication
 
 - **What**: Distill verbose content into dense, high-signal representations
 - **Security**: Compression can drop safety-critical context. Never compress security constraints, policy boundaries, or trust markers. Compressed content should retain its trust classification.
-- **Anti-pattern**: Using raw conversation history as context. As the [12-Factor Agents](https://www.humanlayer.dev/12-factor-agents) framework notes (Factor 3), custom context formats outperform standard message arrays because they let you control what signal is preserved.
+- **Anti-pattern**: Using raw conversation history as context. As the [12-Factor Agents](https://github.com/humanlayer/12-factor-agents) framework notes (Factor 3), custom context formats outperform standard message arrays because they let you control what signal is preserved.
 
 ### 2.4 Isolate
 
@@ -135,7 +135,7 @@ Break monolithic context into composable, right-sized units. Each unit should ha
 
 ### 5.2 Load Lazily, Discard Eagerly
 
-Only load context when needed. Remove it when its purpose is served. Progressive disclosure is the default: load metadata first, full content when relevant, resources on explicit demand. Every token has a cost — latency, money, attention. [Anthropic's prompt caching](https://platform.claude.com/docs/en/build-with-claude/prompt-caching) reduces cost by 90% on cache hits, but only if the cached context is stable; thrashing context defeats caching. Unused context is worse than absent context because it actively dilutes signal and increases the risk of distraction failures (§4).
+Only load context when needed. Remove it when its purpose is served. Progressive disclosure is the default: load metadata first, full content when relevant, resources on explicit demand. Every token has a cost — latency, money, attention. [Anthropic's prompt caching](https://platform.claude.com/docs/en/build-with-claude/prompt-caching) reduces cost by 90% on cache hits, but only if the cached context is stable; thrashing context defeats caching. Unused context is worse than absent context because it actively dilutes signal and increases the risk of distraction failures ([§4](#4-failure-modes)).
 
 ### 5.3 Treat Context as Code
 
@@ -165,7 +165,7 @@ Multiple published frameworks describe how to structure context. They converge m
 | [**5 Layers**](https://atlan.com/know/context-engineering-framework/) | Atlan | Trust-ordered stack | Instructions → Retrieval → Memory → Tool Output → Governed Data |
 | [**W/S/C/I Pipeline**](https://redis.io/blog/context-engineering-best-practices-for-an-emerging-discipline/) | Redis / LangChain | Operational process model | Write → Select → Compress → Isolate |
 | [**ACE Framework**](https://arxiv.org/abs/2510.04618) | Stanford / SambaNova | Self-improving agents | Generator → Reflector → Curator (delta updates; +10.6% AppWorld, 86.9% latency reduction) |
-| [**12-Factor Agents**](https://www.humanlayer.dev/12-factor-agents) | HumanLayer | Application architecture | 12 factors; Factor 3 = "Own Your Context Window" |
+| [**12-Factor Agents**](https://github.com/humanlayer/12-factor-agents) | HumanLayer | Application architecture | 12 factors; Factor 3 = "Own Your Context Window" |
 | [**Building Effective Agents**](https://www.anthropic.com/engineering/building-effective-agents) | Anthropic | Pattern catalog | Augmented LLMs → Workflows (chain, route, parallelize, orchestrate) → Agents |
 | [**Agent Skills**](https://agentskills.io/specification) | agentskills.io / AAIF | Cross-tool interop standard | SKILL.md: metadata + body + resources; progressive disclosure |
 
@@ -177,7 +177,7 @@ These frameworks agree on the fundamentals:
 - **Selection and retrieval** is the hardest operational problem
 - **Decomposition and isolation** are the primary mechanisms for both quality and security
 - The system must be **testable and versionable** — context-as-code is the consensus practice
-- **Start simple**: [Anthropic](https://www.anthropic.com/engineering/building-effective-agents) and [12-Factor Agents](https://www.humanlayer.dev/12-factor-agents) both emphasize beginning with the simplest approach that works and layering complexity only when needed
+- **Start simple**: [Anthropic](https://www.anthropic.com/engineering/building-effective-agents) and [12-Factor Agents](https://github.com/humanlayer/12-factor-agents) both emphasize beginning with the simplest approach that works and layering complexity only when needed
 
 The difference between frameworks is primarily one of *perspective*: Schmid taxonomizes inputs, Atlan orders by trust, Redis/LangChain describe process, ACE adds self-improvement loops, and Anthropic catalogs architectural patterns. A practitioner benefits from knowing all of them.
 
@@ -272,7 +272,7 @@ Context artifacts deserve the same operational rigor as production code. They co
 - All context artifacts — instructions, rules, skills, prompt templates, agent definitions — live in Git alongside the code they govern
 - Changes go through pull request review. Context changes are behavior changes; they should be reviewed with the same scrutiny as code changes
 - Use semantic diffing where possible to detect *intent* changes, not just text edits
-- This pattern is documented in detail by [AppScale](https://appscale.blog/en/blog/context-engineering-beyond-prompt-engineering-2026) and practiced in the [12-Factor Agents](https://www.humanlayer.dev/12-factor-agents) community
+- This pattern is documented in detail by [AppScale](https://appscale.blog/en/blog/context-engineering-beyond-prompt-engineering-2026) and practiced in the [12-Factor Agents](https://github.com/humanlayer/12-factor-agents) community
 
 ### 9.2 CI/CD Testing
 
@@ -296,7 +296,7 @@ Alert on thresholds — especially freshness. Context rot is silent and cumulati
 ## 10. See Also
 
 - [Building Effective Agents](https://www.anthropic.com/engineering/building-effective-agents) — Anthropic
-- [12-Factor Agents](https://www.humanlayer.dev/12-factor-agents) — HumanLayer
+- [12-Factor Agents](https://github.com/humanlayer/12-factor-agents) — HumanLayer
 - [Agent Skills Specification](https://agentskills.io/specification) — AAIF
 - [A Survey of Context Engineering for LLMs](https://arxiv.org/abs/2507.13334) — Mei et al.
 - [MCP 2026 Roadmap](https://a2a-mcp.org/blog/mcp-2026-roadmap) — MCP Community
