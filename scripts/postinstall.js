@@ -151,7 +151,10 @@ async function main() {
       copyFileSync(src, dest);
     }
 
-    // Copy agents/ directory (recursive — handles nested subdirs)
+    // Copy agents/ directory (recursive — handles nested subdirs).
+    // Agents are package-owned and always overwritten (unlike STANDALONE_FILES
+    // which prompt for user-edited content). Agent specs must match the
+    // installed package version to work correctly.
     const agentsSrc = path.join(CONTENT_ROOT, 'agents');
     if (fs.existsSync(agentsSrc)) {
       copyDirSync(agentsSrc, path.join(skillDir, 'agents'));
