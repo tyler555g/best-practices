@@ -82,7 +82,7 @@ cat categories.md
 
 ## Full Structure
 
-For the complete domain/subdirectory taxonomy (10 domains, ~100 subdisciplines), see **README.md**.
+For the complete domain/subdirectory taxonomy (10 domains, ~100 subdisciplines), see **categories.md**.
 
 For the comprehensive life-category taxonomy (20 categories, ~150 subcategories), see **categories.md**.
 
