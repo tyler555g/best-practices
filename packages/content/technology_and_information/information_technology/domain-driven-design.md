@@ -10,7 +10,7 @@ DDD applies most effectively when:
 
 The approach centers on creating a **ubiquitous language** — a shared vocabulary between developers and domain experts — and organizing code around **bounded contexts** that reflect natural business boundaries.
 
-## The Modelling Process
+## The Modeling Process
 
 The **8-step DDD starter modeling process** provides a structured approach for applying DDD from business understanding to code implementation:
 
@@ -19,7 +19,7 @@ The **8-step DDD starter modeling process** provides a structured approach for a
 3. **Decompose** — Break down the domain into smaller, manageable subdomains and identify core vs supporting areas
 4. **Strategize** — Classify domains by business importance using Core Domain Charts to prioritize investment
 5. **Connect** — Map relationships between contexts using Context Mapping patterns to understand dependencies
-6. **Organise** — Align team structures with domain boundaries following Conway's Law principles  
+6. **Organize** — Align team structures with domain boundaries following Conway's Law principles  
 7. **Define** — Design bounded contexts with clear interfaces using the Bounded Context Canvas
 8. **Code** — Implement the domain model using tactical DDD patterns like aggregates, entities, and value objects
 

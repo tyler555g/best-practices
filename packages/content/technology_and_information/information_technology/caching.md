@@ -33,4 +33,4 @@ Store frequently accessed data in memory within the application process. Provide
 Avoid using the cache as the sole source of truth. Do not cache highly volatile or sensitive data without strong invalidation. Prevent cache stampedes by using locking or request coalescing.
 
 ## See Also
-- [Original Microsoft source](https://github.com/MicrosoftDocs/architecture-center/blob/main/docs/best-practices/caching-content.md)
+- [Original Microsoft source — Microsoft (CC BY 4.0)](https://github.com/MicrosoftDocs/architecture-center/blob/main/docs/best-practices/caching-content.md)

@@ -12,7 +12,7 @@ Sender Policy Framework (SPF) authorizes IP addresses permitted to send email fo
 
 **SPF Record Structure:**
 ```
-v=spf1 include:_spf.google.com include:mailgun.org ip4:192.168.1.100 ~all
+v=spf1 include:_spf.google.com include:mailgun.org ip4:192.0.2.100 ~all
 ```
 
 **SPF Mechanisms:**
@@ -124,6 +124,7 @@ max_age: 86400
 ```
 
 **MTA-STS Policy Modes:**
+- `none`: Policy explicitly disabled; no enforcement or reporting
 - `testing`: Report violations but don't enforce
 - `enforce`: Reject mail if secure delivery impossible
 

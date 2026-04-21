@@ -140,7 +140,8 @@ JSON Web Tokens require careful handling to prevent common vulnerabilities. Thes
 - SHOULD use proper key derivation functions when needed
 
 **Key Distribution:**
-- Use secure key distribution mechanisms (JWK Sets, x5u headers)
+- Use secure key distribution mechanisms — prefer JWK Sets served from a preconfigured, trusted issuer URL
+- Avoid `x5u` header-based key distribution by default; accepting key material from URLs in the JWT header can enable key-injection attacks unless you strictly allowlist and validate the source. Only enable with strong trust controls.
 - MUST validate key sources to prevent injection attacks
 - SHOULD implement key rotation capabilities
 

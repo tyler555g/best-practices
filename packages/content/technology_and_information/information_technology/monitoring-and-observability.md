@@ -31,4 +31,4 @@ Instrument code to emit logs, metrics, and traces at critical points. Use distri
 Define actionable alerts based on thresholds and anomaly detection. Route alerts to on-call responders with sufficient context. Establish incident response playbooks and conduct regular drills to improve readiness.
 
 ## See Also
-- [Original Microsoft source](https://github.com/MicrosoftDocs/architecture-center/blob/main/docs/best-practices/monitoring-content.md)
+- [Original Microsoft source — Microsoft (CC BY 4.0)](https://github.com/MicrosoftDocs/architecture-center/blob/main/docs/best-practices/monitoring-content.md)

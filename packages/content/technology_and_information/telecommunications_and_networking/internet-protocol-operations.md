@@ -32,7 +32,7 @@ Source address spoofing enables various denial-of-service attacks and obscures a
 **Access Control Lists (ACLs):**
 ```
 # Example Cisco IOS configuration
-access-list 100 permit ip 192.168.1.0 0.0.0.255 any
+access-list 100 permit ip 192.0.2.0 0.0.0.255 any
 access-list 100 deny ip any any log
 interface Serial0/0
  ip access-group 100 in

@@ -27,4 +27,4 @@ Design applications to be stateless and loosely coupled. Use message queues to d
 Avoid manual scaling for dynamic workloads. Do not assume scaling is instantaneous. Prevent resource thrashing by setting appropriate thresholds and cooldown periods.
 
 ## See Also
-- [Original Microsoft source](https://github.com/MicrosoftDocs/architecture-center/blob/main/docs/best-practices/auto-scaling.md)
+- [Original Microsoft source — Microsoft (CC BY 4.0)](https://github.com/MicrosoftDocs/architecture-center/blob/main/docs/best-practices/auto-scaling.md)

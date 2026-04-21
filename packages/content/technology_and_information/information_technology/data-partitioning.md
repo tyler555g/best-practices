@@ -29,7 +29,7 @@ Partitioning data is essential for scalability, performance, and maintainability
 - Monitor partition sizes and performance regularly.
 
 ## See Also
-- Database sharding patterns
-- Consistent hashing
-- CAP theorem and trade-offs
+- [Database sharding patterns — Microsoft (CC BY 4.0)](https://learn.microsoft.com/en-us/azure/architecture/patterns/sharding)
+- [Consistent hashing (Wikipedia)](https://en.wikipedia.org/wiki/Consistent_hashing)
+- [CAP theorem — Brewer's conjecture](https://people.eecs.berkeley.edu/~brewer/cs262b-2004/PODC-keynote.pdf)
 - [API design best practices](api-design.md)

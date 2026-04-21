@@ -41,4 +41,4 @@ Scale worker instances horizontally to handle increased job volume. Monitor queu
 Avoid running long tasks in web servers. Do not ignore job failures or retries. Prevent duplicate processing by using unique job identifiers or distributed locks.
 
 ## See Also
-- [Original Microsoft source](https://github.com/MicrosoftDocs/architecture-center/blob/main/docs/best-practices/background-jobs-content.md)
+- [Original Microsoft source — Microsoft (CC BY 4.0)](https://github.com/MicrosoftDocs/architecture-center/blob/main/docs/best-practices/background-jobs-content.md)

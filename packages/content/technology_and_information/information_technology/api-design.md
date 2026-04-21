@@ -59,7 +59,7 @@ Designing robust, scalable, and maintainable APIs is essential for modern softwa
 - Return `406 Not Acceptable` if the requested format is unsupported.
 
 ## See Also
-- OpenAPI Specification (OAS)
-- Richardson Maturity Model
-- API security best practices
+- [OpenAPI Specification (OAS)](https://spec.openapis.org/oas/latest.html)
+- [Richardson Maturity Model](https://martinfowler.com/articles/richardsonMaturityModel.html)
+- [OWASP REST Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/REST_Security_Cheat_Sheet.html)
 - [Data partitioning best practices](data-partitioning.md)
