@@ -21,6 +21,7 @@
   "files": [
     "SKILL.md",
     "categories.md",
+    "agents/",
     "technology_and_information/"
   ],
   "publishConfig": {
