@@ -71,8 +71,6 @@ Browse content using file paths relative to the package root:
 # List all available content
 ls technology_and_information/data_science_and_ai/
 ls technology_and_information/information_technology/
-ls technology_and_information/cybersecurity_and_privacy/
-ls technology_and_information/telecommunications_and_networking/
 ls agents/
 
 # Read a specific best-practices document

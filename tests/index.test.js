@@ -181,8 +181,11 @@ test('SKILL.md references all content files in subdirectories', () => {
         if (entry.isDirectory()) {
           walkDir(fullPath);
         } else if (entry.name.endsWith('.md')) {
-          if (!skillContent.includes(entry.name)) {
-            missingFiles.push(path.relative(CONTENT_ROOT, fullPath));
+          // Match on relative path (e.g. "information_technology/git-workflow.md")
+          // to avoid false positives from filename-only matches in prose.
+          const relativePath = path.relative(CONTENT_ROOT, fullPath).replace(/\\/g, '/');
+          if (!skillContent.includes(relativePath)) {
+            missingFiles.push(relativePath);
           }
         }
       }
@@ -205,7 +208,8 @@ test('context instruction files exist and are non-empty', () => {
     const filePath = path.join(repoRoot, file);
     assert.ok(fs.existsSync(filePath), `Missing context file: ${file}`);
     const content = fs.readFileSync(filePath, 'utf8');
-    assert.ok(content.length > 50, `Context file is too small: ${file} (${content.length} chars)`);
+    const meaningful = content.trim().length;
+    assert.ok(meaningful > 50, `Context file is too small: ${file} (${meaningful} chars)`);
   }
 });
 });
