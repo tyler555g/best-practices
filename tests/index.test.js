@@ -161,3 +161,51 @@ test('bin/best-practices.js parses and runs without error', () => {
   const output = execFileSync(process.execPath, [binPath], { encoding: 'utf8' });
   assert.ok(output.includes('Usage:'), 'CLI should print usage instructions');
 });
+
+// --- CONTEXT ARTIFACT CI TESTS ---
+
+test('SKILL.md references all content files in subdirectories', () => {
+  const skillMd = path.join(CONTENT_ROOT, 'SKILL.md');
+  const skillContent = fs.readFileSync(skillMd, 'utf8');
+  
+  // Find all .md files in subdirectories of CONTENT_ROOT (not root-level files)
+  const contentDirs = fs.readdirSync(CONTENT_ROOT, { withFileTypes: true })
+    .filter(d => d.isDirectory() && d.name !== 'node_modules');
+  
+  const missingFiles = [];
+  for (const dir of contentDirs) {
+    const walkDir = (dirPath) => {
+      const entries = fs.readdirSync(dirPath, { withFileTypes: true });
+      for (const entry of entries) {
+        const fullPath = path.join(dirPath, entry.name);
+        if (entry.isDirectory()) {
+          walkDir(fullPath);
+        } else if (entry.name.endsWith('.md')) {
+          if (!skillContent.includes(entry.name)) {
+            missingFiles.push(path.relative(CONTENT_ROOT, fullPath));
+          }
+        }
+      }
+    };
+    walkDir(path.join(CONTENT_ROOT, dir.name));
+  }
+  
+  assert.deepStrictEqual(missingFiles, [],
+    `SKILL.md is missing references to: ${missingFiles.join(', ')}`);
+});
+
+test('context instruction files exist and are non-empty', () => {
+  const repoRoot = path.join(__dirname, '..');
+  const files = [
+    '.github/copilot-instructions.md',
+    'content.instructions.md',
+    'code.instructions.md',
+  ];
+  for (const file of files) {
+    const filePath = path.join(repoRoot, file);
+    assert.ok(fs.existsSync(filePath), `Missing context file: ${file}`);
+    const content = fs.readFileSync(filePath, 'utf8');
+    assert.ok(content.length > 50, `Context file is too small: ${file} (${content.length} chars)`);
+  }
+});
+});
