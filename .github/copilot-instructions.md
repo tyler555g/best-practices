@@ -6,7 +6,7 @@
 These principles apply to **all AI interactions** in this repository unless explicitly overridden by a human.
 Only a human may waive or modify these defaults — never override them yourself.
 
-Source: [ai-human-interaction-defaults.md](../technology_and_information/data_science_and_ai/ai-human-interaction-defaults.md)
+Source: [ai-human-interaction-defaults.md](../packages/content/technology_and_information/data_science_and_ai/ai-human-interaction-defaults.md)
 
 ### 1. Human Authority
 

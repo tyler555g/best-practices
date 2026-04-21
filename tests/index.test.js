@@ -197,6 +197,17 @@ test('SKILL.md references all content files in subdirectories', () => {
     `SKILL.md is missing references to: ${missingFiles.join(', ')}`);
 });
 
+test('SKILL.md does not reference non-existent content files', () => {
+  const skillMd = path.join(CONTENT_ROOT, 'SKILL.md');
+  const skillContent = fs.readFileSync(skillMd, 'utf8');
+
+  // Extract backtick-quoted .md paths from SKILL.md (e.g. `technology_and_information/.../file.md`)
+  const refs = [...skillContent.matchAll(/`([a-z_/.-]+\.md)`/g)].map(m => m[1]);
+  const phantom = refs.filter(r => !fs.existsSync(path.join(CONTENT_ROOT, r)));
+  assert.deepStrictEqual(phantom, [],
+    `SKILL.md references files that do not exist: ${phantom.join(', ')}`);
+});
+
 test('context instruction files exist and are non-empty', () => {
   const repoRoot = path.join(__dirname, '..');
   const files = [
