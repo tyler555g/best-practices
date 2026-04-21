@@ -122,10 +122,10 @@ test('forceReplace overwrites even when user has modified the file', async () =>
   const srcPath = writeTmp(srcDir, 'README.md', pkgContent);
   const destPath = writeTmp(dstDir, 'README.md', userContent);
 
+  // Manifest reflects a clean install (disk === upstream === src), but the user has
+  // since changed destPath — this is Case D (pkg unchanged, user modified).
+  // forceReplace must override Case D and still overwrite the user's file.
   const manifestEntry = { upstream: hashContent(pkgContent), disk: hashContent(pkgContent) };
-  // Corrupt: set disk to user content hash so it looks like Case D (user modified, pkg unchanged)
-  manifestEntry.disk = hashContent(pkgContent); // keep upstream == src so it's Case D normally
-  // But forceReplace should override Case D
 
   const promptSpy = () => { throw new Error('prompt must not be called with forceReplace'); };
   const { action } = await installStandaloneFile(srcPath, destPath, {
@@ -310,6 +310,30 @@ test('returns skipped-no-src when source file does not exist', async () => {
   );
   assert.equal(action, 'skipped-no-src');
   assert.equal(newEntry, null);
+});
+
+// ── upstream-deleted standalone (Pass 2a) ────────────────────────────────────
+
+test('Pass 2a: installStandaloneFile returns skipped-no-src + null entry for upstream-deleted files', async () => {
+  // Verifies the contract main() relies on for Pass 2a:
+  // When the source file is gone (upstream-deleted), installStandaloneFile returns
+  // action='skipped-no-src' and newEntry=null so main() can collect it into
+  // upstreamDeletedStandalones and handle deletion separately.
+  const dstDir = makeTempDir('bp-dst-upstream-del-contract-');
+  const pkgContent = '# previously installed\n';
+  const destPath = path.join(dstDir, 'SKILL.md');
+  fs.writeFileSync(destPath, pkgContent, 'utf8');
+
+  const manifestEntry = { upstream: hashContent(pkgContent), disk: hashContent(pkgContent) };
+
+  const { action, newEntry } = await installStandaloneFile('/nonexistent/SKILL.md', destPath, {
+    manifestEntry,
+  });
+
+  assert.equal(action, 'skipped-no-src', 'action must signal upstream-delete to caller');
+  assert.equal(newEntry, null, 'newEntry must be null so file is dropped from new manifest');
+  // dest file still on disk — deletion is main()'s responsibility in Pass 2a
+  assert.ok(fs.existsSync(destPath), 'installStandaloneFile itself must not delete the dest');
 });
 
 // ── per-target manifest isolation ────────────────────────────────────────────

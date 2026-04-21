@@ -86,7 +86,7 @@ function readlineQuestion(question) {
 }
 
 async function defaultConflictPrompt(relPath, conflictType, _opts) {
-  if (!process.stdout.isTTY) return 'keep';
+  if (!process.stdout.isTTY || !process.stdin.isTTY || IS_CI) return 'keep';
 
   let question;
   if (conflictType === 'user-added') {
@@ -281,6 +281,7 @@ async function main() {
     const newManifestFiles = {};
 
     // Pass 1: install standalone files with three-way conflict detection
+    const upstreamDeletedStandalones = [];
     for (const file of STANDALONE_FILES) {
       const srcPath = path.join(CONTENT_ROOT, file);
       const destPath = path.join(skillDir, file);
@@ -300,12 +301,34 @@ async function main() {
       } else if (action === 'kept') {
         console.log(`  📌 Kept: ${file} — your version preserved (package version differs)`);
       } else if (action === 'skipped-no-src') {
-        // source missing from content package — skip silently
+        // If this file was previously tracked, it's upstream-deleted — handle below
+        if (manifest.files[file]) upstreamDeletedStandalones.push(file);
       }
     }
 
     // Pass 2: handle files that are in the manifest but no longer provided by the package
     const handledFiles = new Set(STANDALONE_FILES);
+
+    // Pass 2a: standalone files removed from the package
+    for (const file of upstreamDeletedStandalones) {
+      const filePath = path.join(skillDir, file);
+      if (!fs.existsSync(filePath)) continue;
+      const prevEntry = manifest.files[file];
+      const existingContent = fs.readFileSync(filePath, 'utf8');
+      const existingHash = hashContent(existingContent);
+      if (forceReplace || existingHash === prevEntry.disk) {
+        fs.unlinkSync(filePath);
+      } else {
+        const resolution = await promptFn(file, 'upstream-deleted', { srcContent: null, existingContent });
+        if (resolution === 'delete' || resolution === 'replace') {
+          fs.unlinkSync(filePath);
+        } else {
+          newManifestFiles[file] = { upstream: null, disk: existingHash };
+        }
+      }
+    }
+
+    // Pass 2b: non-standalone files in the skill dir that are no longer provided
     if (fs.existsSync(skillDir)) {
       for (const entry of fs.readdirSync(skillDir, { withFileTypes: true })) {
         if (!entry.isFile()) continue;
