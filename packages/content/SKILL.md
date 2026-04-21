@@ -95,3 +95,13 @@ This knowledge base is built on:
 2. **Practical over theoretical** — field guides, not textbooks
 3. **Discipline-agnostic structure** — every domain follows the same organizational pattern
 4. **Living content** — continuously expanded via feature branches and draft PRs
+
+## Content Authoring Contract
+
+When creating or reviewing content documents in this package:
+- Write for a **knowledgeable generalist** — assume intelligence, not prior expertise
+- Prefer **concise, scannable** content: headers, bullets, tables
+- **Cite sources** — reference standards bodies, research, or authoritative publications with links
+- **Avoid opinion** — present the range of views if contested
+- **No YAML frontmatter** on content docs (SKILL.md is the only exception)
+- Cross-reference sibling docs with **relative links**

@@ -224,6 +224,16 @@ test('context instruction files exist and are non-empty', () => {
   }
 });
 
+test('prompt template exists and has valid frontmatter', () => {
+  const repoRoot = path.join(__dirname, '..');
+  const promptFile = path.join(repoRoot, '.github/prompts/create-best-practice.prompt.md');
+  assert.ok(fs.existsSync(promptFile), 'Prompt template missing: .github/prompts/create-best-practice.prompt.md');
+  const content = fs.readFileSync(promptFile, 'utf8');
+  assert.match(content, /^---\n/, 'Prompt template missing YAML frontmatter');
+  assert.match(content, /mode:\s*\w+/, 'Prompt template missing mode in frontmatter');
+  assert.match(content, /description:\s*.+/, 'Prompt template missing description in frontmatter');
+});
+
 test('scoped instruction files have valid applyTo frontmatter', () => {
   const repoRoot = path.join(__dirname, '..');
   const instructionFiles = [
