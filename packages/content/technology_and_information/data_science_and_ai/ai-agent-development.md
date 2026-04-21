@@ -65,18 +65,20 @@ AI implements → you review → you decide it's ready → you tag maintainer
 
 | Location | Pattern | Example |
 |----------|---------|---------|
-| Repository name | `skill-<name>` | `skill-secret-management`, `skill-confluence-ops`, `skill-jira-ops` |
-| npm package name | `@<scope>/skill-<name>` | `@tyler.given/skill-secret-management` |
-| Local skill directory | `~/.copilot/skills/<name>/` | `~/.copilot/skills/secret-management/` |
+| Standalone repo | `skill-<name>` | `skill-secret-management` |
+| npm package | `@<scope>/skill-<name>` | `@tyler.given/skill-secret-management` |
+| Local directory basename | `<name>` | `secret-management/` (under `~/.copilot/skills/`, `~/.claude/skills/`, etc.) |
 | SKILL.md `name` field | `<name>` | `secret-management` |
-| Confluence page title | `Skill \| <name>` | `Skill \| secret-management` |
+| Confluence page title | `Skill | <name>` | `Skill | secret-management` |
 
 ### Rules
 
 - The `<name>` portion must be **consistent across ALL locations**
 - Use **kebab-case** for names (lowercase, hyphens between words)
-- The `skill-` prefix appears only on repos and npm packages — not in the SKILL.md name or local directory
-- The Confluence title uses `Skill | ` prefix for discoverability in search
+- The `skill-` prefix appears only on repos and npm packages — not in the SKILL.md name, local directory, or Confluence title
+- The Confluence title uses the `Skill | ` prefix (pipe-delimited) for discoverability in search
+- Use `skill-<name>` for standalone skill repos; in monorepos, apply the convention to each package directory and SKILL.md rather than the repo root
+- Prefer capability-scoped names; use compound names only when the skill is intentionally one combined capability (e.g., `secret-management`, not `secret-management-and-rotation`)
 
 ### Why
 
