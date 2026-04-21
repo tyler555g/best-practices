@@ -33,7 +33,7 @@ Comprehensive reference for designing, building, and operating Power BI / Micros
 
 - Start with **Import** unless you have a compelling reason for another mode.
 - In **Fabric**, prefer **Direct Lake** when data is already in a lakehouse — it avoids refresh scheduling entirely.
-- Direct Lake has **guardrails** (row count, column count limits per SKU). If guardrails are exceeded, the engine **falls back to DirectQuery** silently — monitor for this.
+- Direct Lake has **guardrails** (row count, column count limits per SKU). When guardrails are exceeded the behavior depends on the `DirectLakeBehavior` model property: in **Automatic** mode (the default) the engine falls back to DirectQuery over the SQL analytics endpoint; in **DirectLakeOnly** mode the query fails instead. Monitor the `DirectLakeQueryMode` DAX event to detect fallback. See [Direct Lake overview](https://learn.microsoft.com/en-us/power-bi/enterprise/directlake-overview).
 - DirectQuery and Dual tables **must** fold all Power Query steps — no client-side transforms allowed.
 
 ### Naming Conventions
@@ -217,13 +217,15 @@ Incremental refresh creates two zones of partitions:
 
 ### Detect Data Changes (pollingExpression)
 
-- Enables the service to skip refreshing a partition if no data changed, by checking a `MAX(ModifiedDate)` or similar expression.
-- Only works on **archive** partitions (not the refresh window — those always refresh).
-- Define via XMLA or the Power BI Desktop incremental refresh dialog.
+- Enables the service to skip refreshing partitions **within the incremental refresh window** when no data has changed, by evaluating a polling expression such as `MAX(ModifiedDate)` against each partition's date range.
+- Applies to partitions in the **refresh window** (not archive partitions — those are already excluded from routine refresh). If the polling expression returns the same value as the previous refresh, the partition is skipped.
+- Configure via the Power BI Desktop incremental refresh dialog ("Detect data changes" checkbox and column picker). Advanced users can also set `pollingExpression` directly via XMLA/TMDL:
 
 ```json
 "pollingExpression": "MAX([ModifiedDate])"
 ```
+
+- See [Incremental refresh — detect data changes](https://learn.microsoft.com/en-us/power-bi/connect-data/incremental-refresh-configure#detect-data-changes).
 
 ### Partition Management via XMLA (Advanced)
 
@@ -483,7 +485,7 @@ partition 'Sales-Partition' = m
 
 - Fabric workspaces can sync directly with **Azure DevOps or GitHub** repositories.
 - Each semantic model is serialized as a TMDL folder in the repo.
-- Changes in the workspace auto-commit to the branch; changes pushed to the branch sync to the workspace.
+- Changes in the workspace are committed to the connected branch via an explicit **Commit** action; changes pushed to the branch are pulled into the workspace via an explicit **Update from Git** action. Neither direction is automatic — teams must actively sync. See [Fabric Git integration](https://learn.microsoft.com/en-us/fabric/cicd/git-integration/intro-to-git-integration).
 - Use **feature branches** for development; merge to main to deploy.
 
 ### Deployment Pipelines (Dev → Test → Prod)
