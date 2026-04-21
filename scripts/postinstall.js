@@ -150,6 +150,16 @@ async function main() {
       copyFileSync(src, dest);
     }
 
+    // Copy agents/ directory
+    const agentsSrc = path.join(CONTENT_ROOT, 'agents');
+    if (fs.existsSync(agentsSrc)) {
+      const agentsDest = path.join(skillDir, 'agents');
+      fs.mkdirSync(agentsDest, { recursive: true });
+      for (const entry of fs.readdirSync(agentsSrc)) {
+        copyFileSync(path.join(agentsSrc, entry), path.join(agentsDest, entry));
+      }
+    }
+
     console.log(`✅ ${isFirstInstall ? 'Installed' : 'Updated'} best-practices skill → ${target.name} (${skillDir})`);
     skillsInstalled++;
   }
