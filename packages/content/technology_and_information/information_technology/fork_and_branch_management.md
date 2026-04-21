@@ -83,7 +83,9 @@ git reset --hard upstream/main
 git push origin main --force-with-lease
 ```
 
-Four commands. Run them as a unit. This is the only safe way to sync — never merge upstream into your fork's main.
+Four commands. Run them as a unit when your goal is to keep your fork's `main` as an exact mirror of `upstream/main`.
+
+This hard-reset workflow is the **fork-main mirroring exception** — it is the only correct approach for maintaining an exact copy. For general branch syncing guidance, follow the merge-based workflow in [git-workflow.md](./git-workflow.md). Never merge upstream into your fork's main.
 
 ### When to Sync
 
@@ -99,6 +101,10 @@ Four commands. Run them as a unit. This is the only safe way to sync — never m
 If `origin/main` has diverged (commits not in upstream):
 
 ```bash
+# Fetch latest state from all remotes before comparing
+git fetch upstream
+git fetch origin
+
 # Check divergence
 git log --oneline origin/main..upstream/main  # upstream is ahead
 git log --oneline upstream/main..origin/main  # fork has extra commits (BAD)
@@ -157,6 +163,9 @@ Maintainers review and merge at the PR level. A PR with 5 unrelated changes forc
 ### Checking What's Different
 
 ```bash
+# Fetch latest before comparing to avoid stale remote-tracking refs
+git fetch --all --prune
+
 # What does upstream have that I don't?
 git log --oneline main..upstream/main
 
@@ -169,15 +178,18 @@ git diff upstream/main..feat/my-feature --stat
 
 ### Rebasing Feature Branches on Updated Upstream
 
+Only rebase **personal, unpublished** feature branches (branches that have not been shared with others). If a branch has already been pushed and others may have based work on it, use merge instead.
+
 ```bash
-# After syncing main
+# After syncing main — fetch first to ensure upstream/main is current
+git fetch upstream
 git checkout feat/my-feature
 git rebase upstream/main
 # Resolve conflicts if any
 git push origin feat/my-feature --force-with-lease
 ```
 
-This is rebasing a **personal feature branch** (safe). Never rebase shared/public branches. See [git-workflow.md](./git-workflow.md) for the merge-vs-rebase decision matrix.
+See [git-workflow.md](./git-workflow.md) for the merge-vs-rebase decision matrix.
 
 ### Cherry-Picking From Declined PRs
 
@@ -258,7 +270,7 @@ git fetch --prune upstream
 git branch --merged main
 
 # Delete all merged local branches (except main)
-git branch --merged main | grep -v 'main' | xargs git branch -d
+git branch --merged main | grep -v -E '^(\* )?main$' | xargs git branch -d
 ```
 
 ### Branch Audit
