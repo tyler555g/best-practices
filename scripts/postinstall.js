@@ -155,9 +155,14 @@ async function main() {
     // Agents are package-owned and always overwritten (unlike STANDALONE_FILES
     // which prompt for user-edited content). Agent specs must match the
     // installed package version to work correctly.
+    // Remove stale destination first so renamed/deleted agents don't linger.
     const agentsSrc = path.join(CONTENT_ROOT, 'agents');
+    const agentsDest = path.join(skillDir, 'agents');
     if (fs.existsSync(agentsSrc)) {
-      copyDirSync(agentsSrc, path.join(skillDir, 'agents'));
+      if (fs.existsSync(agentsDest)) {
+        fs.rmSync(agentsDest, { recursive: true });
+      }
+      copyDirSync(agentsSrc, agentsDest);
     }
 
     console.log(`✅ ${isFirstInstall ? 'Installed' : 'Updated'} best-practices skill → ${target.name} (${skillDir})`);
