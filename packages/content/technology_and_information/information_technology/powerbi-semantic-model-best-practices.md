@@ -431,7 +431,7 @@ Common annotations and what they mean:
 |---|---|
 | `PBI_ResultType` | Marks the output type of a measure (e.g., `Table` for calculated tables). |
 | `__PBI_IncrRefreshPolicy` | Stores incremental refresh policy JSON for a table. |
-| `SummarizationSetBy` | Records who/what set the default aggregation (e.g., `User`, `Default`). The actual aggregation is controlled by the `summarizeBy` column property — set `summarizeBy: none` on keys and non-aggregatable columns. |
+| `SummarizationSetBy` | Controls default aggregation. Set to `SummarizationSetBy: none` on keys and non-aggregatable columns. |
 | `PBI_FormatHint` | Stores format string metadata for Power BI Desktop. |
 | `PBI_NavigationStepName` | Tracks the Power Query navigation step name for source binding. |
 
@@ -610,7 +610,7 @@ role RegionalManager
 - Destroys compression efficiency, makes the model hard to understand, and forces every query to scan a massive table.
 - **Fix:** Decompose into a star schema with proper dimension and fact tables.
 
-### Not Setting Default Aggregation (`summarizeBy`)
+### Not Setting Default Aggregation (SummarizationSetBy)
 
 - Key columns and non-aggregatable fields default to SUM in visuals if not explicitly set.
 - **Fix:** Set `summarizeBy: none` on every key column, foreign key, and identifier in TMDL.
