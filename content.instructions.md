@@ -12,7 +12,7 @@
 
 - Use **kebab-case** for new files (e.g., `ai-agent-development.md`, `git-workflow.md`)
 - Be descriptive and specific
-- Legacy exception: `information_technology/github_branch_protection.md` uses underscores; keep existing references accurate but do not use underscores in new files
+- Legacy exception: `technology_and_information/information_technology/github_branch_protection.md` uses underscores; keep existing references accurate but do not use underscores in new files
 
 ## What Belongs in Each Subdirectory
 
@@ -30,7 +30,7 @@
 
 ## Format Requirements
 
-- No YAML frontmatter on regular content docs; `SKILL.md` and `categories.md` are explicit exceptions that require metadata frontmatter
+- No YAML frontmatter on regular content docs; `SKILL.md` is the explicit exception that requires metadata frontmatter
 - Cross-reference sibling docs with relative links
 - Use markdown headers for structure
 - Include code examples where applicable
