@@ -77,7 +77,7 @@ AI implements → you review → you decide it's ready → you tag maintainer
 - Use **kebab-case** for names (lowercase, hyphens between words)
 - The `skill-` prefix appears only on repos and npm packages — not in the SKILL.md name, local directory, or Confluence title
 - The Confluence title uses the `Skill | ` prefix (pipe-delimited) for discoverability in search
-- Use `skill-<name>` for standalone skill repos; in monorepos, apply the convention to each package directory and SKILL.md rather than the repo root
+- Use `skill-<name>` for standalone skill repos; in monorepos, apply the convention to each package directory (e.g., `packages/skill-secret-management/`) and SKILL.md rather than the repo root
 - Prefer capability-scoped names; use compound names only when the skill is intentionally one combined capability (e.g., `secret-management`, not `secret-management-and-rotation`)
 
 ### Why
