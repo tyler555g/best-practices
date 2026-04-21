@@ -36,12 +36,14 @@ The knowledge base ships only populated domains. Currently available:
 - `technology_and_information/information_technology/data-partitioning.md` — Data partitioning
 - `technology_and_information/information_technology/devops.md` — DevOps practices
 - `technology_and_information/information_technology/domain-driven-design.md` — Domain-driven design
+- `technology_and_information/information_technology/fork_and_branch_management.md` — Fork and branch management
 - `technology_and_information/information_technology/git-workflow.md` — Git workflow and Conventional Commits
 - `technology_and_information/information_technology/github_branch_protection.md` — GitHub branch protection and rulesets
 - `technology_and_information/information_technology/http-standards.md` — HTTP standards
 - `technology_and_information/information_technology/monitoring-and-observability.md` — Monitoring and observability
 - `technology_and_information/information_technology/npm-package-development.md` — npm package development
 - `technology_and_information/information_technology/open-source-contribution.md` — Open source contribution
+- `technology_and_information/information_technology/powerbi-semantic-model-best-practices.md` — Power BI semantic model best practices
 - `technology_and_information/information_technology/resilience-and-fault-handling.md` — Resilience and fault handling
 - `technology_and_information/information_technology/software-antipatterns.md` — Software performance antipatterns
 - `technology_and_information/information_technology/software-architecture-styles.md` — Software architecture styles
