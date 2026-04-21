@@ -161,12 +161,12 @@ Each subdirectory should contain markdown files covering:
 - **Glossary** — key terminology defined clearly
 
 ### File naming convention
-Use lowercase with underscores. Be descriptive.
+Use **kebab-case** for all new content files under `packages/content/`. Be descriptive. A small number of legacy files use underscores (e.g. `fork_and_branch_management.md`) and are grandfathered — rename them to kebab-case when making substantive edits.
 ```
-core_principles.md
-safety_standards.md
-common_mistakes.md
-getting_started.md
+core-principles.md
+safety-standards.md
+common-mistakes.md
+getting-started.md
 ```
 
 ### Tone and style
