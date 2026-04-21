@@ -32,7 +32,12 @@ the Rubber Duck Agent to transform into Socratic questions. Can also be used sta
 | `**/*.md` in `packages/content/` | `packages/content/SKILL.md` + `README.md` content guidelines section |
 | Any file in a PR with commit changes | `technology_and_information/information_technology/git-workflow.md` §Conventional Commits |
 | `**/.github/workflows/*.yml` | `technology_and_information/information_technology/npm-package-development.md` §8 |
-| AI/agent source files | `technology_and_information/data_science_and_ai/ai-agent-development.md` |
+| Files touching infrastructure, CI/CD | `technology_and_information/information_technology/devops.md` |
+| Files touching API endpoints or routes | `technology_and_information/information_technology/api-design.md`, `technology_and_information/information_technology/http-standards.md` |
+| Files touching caching logic | `technology_and_information/information_technology/caching.md` |
+| Files touching security, TLS, auth | `technology_and_information/cybersecurity_and_privacy/tls-and-authentication-standards.md` |
+| Files touching DNS, email, networking | `technology_and_information/telecommunications_and_networking/` (load relevant file) |
+| AI/agent/context files | `technology_and_information/data_science_and_ai/ai-agent-development.md`, `technology_and_information/data_science_and_ai/context-engineering.md` |
 | Open-source contribution changes | `technology_and_information/information_technology/open-source-contribution.md` |
 
 ## Findings Format
