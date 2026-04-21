@@ -253,3 +253,30 @@ test('shipped agent docs only reference shipped files', () => {
     }
   }
 });
+
+test('postinstall copies agents/ directory', () => {
+  const postinstall = path.join(__dirname, '..', 'scripts', 'postinstall.js');
+  const content = fs.readFileSync(postinstall, 'utf8');
+  assert.ok(content.includes("'agents'"),
+    'postinstall.js CONTENT_DIRS must include agents for shipping agent docs');
+});
+
+test('agent docs only reference existing SKILL.md sections', () => {
+  const skillContent = fs.readFileSync(path.join(CONTENT_ROOT, 'SKILL.md'), 'utf8');
+  const sectionHeadings = [...skillContent.matchAll(/^## (.+)$/gm)].map(m => m[1].trim());
+  
+  const agentsDir = path.join(CONTENT_ROOT, 'agents');
+  if (!fs.existsSync(agentsDir)) return;
+  
+  for (const file of fs.readdirSync(agentsDir)) {
+    if (!file.endsWith('.md')) continue;
+    const content = fs.readFileSync(path.join(agentsDir, file), 'utf8');
+    // Match references like "SKILL.md §Section Name"
+    const refs = [...content.matchAll(/SKILL\.md\s+§([^|§\n]+)/g)];
+    for (const ref of refs) {
+      const sectionName = ref[1].trim().replace(/\s*\+\s*$/, '');
+      assert.ok(sectionHeadings.includes(sectionName),
+        `agents/${file} references non-existent SKILL.md section "§${sectionName}". Available: ${sectionHeadings.join(', ')}`);
+    }
+  }
+});
