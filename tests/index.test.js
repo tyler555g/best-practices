@@ -161,3 +161,146 @@ test('bin/best-practices.js parses and runs without error', () => {
   const output = execFileSync(process.execPath, [binPath], { encoding: 'utf8' });
   assert.ok(output.includes('Usage:'), 'CLI should print usage instructions');
 });
+
+// --- CONTEXT ARTIFACT CI TESTS ---
+
+test('SKILL.md references all content files in subdirectories', () => {
+  const skillMd = path.join(CONTENT_ROOT, 'SKILL.md');
+  const skillContent = fs.readFileSync(skillMd, 'utf8');
+  
+  // Find all .md files in subdirectories of CONTENT_ROOT (not root-level files)
+  const contentDirs = fs.readdirSync(CONTENT_ROOT, { withFileTypes: true })
+    .filter(d => d.isDirectory() && d.name !== 'node_modules');
+  
+  const missingFiles = [];
+  for (const dir of contentDirs) {
+    const walkDir = (dirPath) => {
+      const entries = fs.readdirSync(dirPath, { withFileTypes: true });
+      for (const entry of entries) {
+        const fullPath = path.join(dirPath, entry.name);
+        if (entry.isDirectory()) {
+          walkDir(fullPath);
+        } else if (entry.name.endsWith('.md')) {
+          // Match on relative path (e.g. "technology_and_information/information_technology/git-workflow.md")
+          // to avoid false positives from filename-only matches in prose.
+          const relativePath = path.relative(CONTENT_ROOT, fullPath).replace(/\\/g, '/');
+          if (!skillContent.includes(relativePath)) {
+            missingFiles.push(relativePath);
+          }
+        }
+      }
+    };
+    walkDir(path.join(CONTENT_ROOT, dir.name));
+  }
+  
+  assert.deepStrictEqual(missingFiles, [],
+    `SKILL.md is missing references to: ${missingFiles.join(', ')}`);
+});
+
+test('SKILL.md does not reference non-existent content files', () => {
+  const skillMd = path.join(CONTENT_ROOT, 'SKILL.md');
+  const skillContent = fs.readFileSync(skillMd, 'utf8');
+
+  // Extract backtick-quoted .md paths from SKILL.md (e.g. `technology_and_information/.../file.md`)
+  const refs = [...skillContent.matchAll(/`([a-z_/.-]+\.md)`/g)].map(m => m[1]);
+  const phantom = refs.filter(r => !fs.existsSync(path.join(CONTENT_ROOT, r)));
+  assert.deepStrictEqual(phantom, [],
+    `SKILL.md references files that do not exist: ${phantom.join(', ')}`);
+});
+
+test('context instruction files exist and are non-empty', () => {
+  const repoRoot = path.join(__dirname, '..');
+  const files = [
+    '.github/copilot-instructions.md',
+    '.github/instructions/content.instructions.md',
+    '.github/instructions/code.instructions.md',
+  ];
+  for (const file of files) {
+    const filePath = path.join(repoRoot, file);
+    assert.ok(fs.existsSync(filePath), `Missing context file: ${file}`);
+    const content = fs.readFileSync(filePath, 'utf8');
+    const meaningful = content.trim().length;
+    assert.ok(meaningful > 50, `Context file is too small: ${file} (${meaningful} chars)`);
+  }
+});
+
+test('prompt template exists and has valid frontmatter', () => {
+  const repoRoot = path.join(__dirname, '..');
+  const promptFile = path.join(repoRoot, '.github/prompts/create-best-practice.prompt.md');
+  assert.ok(fs.existsSync(promptFile), 'Prompt template missing: .github/prompts/create-best-practice.prompt.md');
+  const content = fs.readFileSync(promptFile, 'utf8');
+  assert.match(content, /^---\n/, 'Prompt template missing YAML frontmatter');
+  assert.match(content, /mode:\s*\w+/, 'Prompt template missing mode in frontmatter');
+  assert.match(content, /description:\s*.+/, 'Prompt template missing description in frontmatter');
+});
+
+test('scoped instruction files have valid applyTo frontmatter', () => {
+  const repoRoot = path.join(__dirname, '..');
+  const instructionFiles = [
+    '.github/instructions/content.instructions.md',
+    '.github/instructions/code.instructions.md',
+  ];
+  for (const file of instructionFiles) {
+    const filePath = path.join(repoRoot, file);
+    const content = fs.readFileSync(filePath, 'utf8');
+    assert.match(content, /^---\n/, `${file} missing YAML frontmatter`);
+    assert.match(content, /applyTo:\s*".+"/, `${file} missing applyTo in frontmatter`);
+  }
+});
+
+test('agents/ directory is included in content package files', () => {
+  const contentPkg = JSON.parse(fs.readFileSync(path.join(CONTENT_ROOT, 'package.json'), 'utf8'));
+  assert.ok(contentPkg.files.includes('agents/'),
+    'packages/content/package.json files array must include agents/');
+});
+
+test('shipped agent docs only reference shipped files', () => {
+  const agentsDir = path.join(CONTENT_ROOT, 'agents');
+  if (!fs.existsSync(agentsDir)) return;
+  
+  // Patterns that indicate a reference to a repo-only file (not a glob pattern for matching)
+  const repoOnlyRefs = [
+    { pattern: /\b(?:see|load|read|reference)\s+.*?\.github\/instructions\//i, label: '.github/instructions/ file reference' },
+    { pattern: /\bcontent\.instructions\.md\b/, label: 'content.instructions.md (repo-only)' },
+    { pattern: /\bcode\.instructions\.md\b/, label: 'code.instructions.md (repo-only)' },
+  ];
+  
+  for (const file of fs.readdirSync(agentsDir)) {
+    if (!file.endsWith('.md')) continue;
+    const content = fs.readFileSync(path.join(agentsDir, file), 'utf8');
+    for (const { pattern, label } of repoOnlyRefs) {
+      assert.ok(!pattern.test(content),
+        `agents/${file} references repo-only artifact: ${label} — shipped agent docs must only reference shipped files`);
+    }
+  }
+});
+
+test('postinstall copies agents/ directory', () => {
+  const postinstall = path.join(__dirname, '..', 'scripts', 'postinstall.js');
+  const content = fs.readFileSync(postinstall, 'utf8');
+  assert.ok(content.includes("'agents'"),
+    'postinstall.js CONTENT_DIRS must include agents for shipping agent docs');
+  // Verify copyDirSync is imported (prevents ReferenceError at runtime)
+  assert.ok(content.includes('copyDirSync'),
+    'postinstall.js must import copyDirSync to copy CONTENT_DIRS');
+});
+
+test('agent docs only reference existing SKILL.md sections', () => {
+  const skillContent = fs.readFileSync(path.join(CONTENT_ROOT, 'SKILL.md'), 'utf8');
+  const sectionHeadings = [...skillContent.matchAll(/^## (.+)$/gm)].map(m => m[1].trim());
+  
+  const agentsDir = path.join(CONTENT_ROOT, 'agents');
+  if (!fs.existsSync(agentsDir)) return;
+  
+  for (const file of fs.readdirSync(agentsDir)) {
+    if (!file.endsWith('.md')) continue;
+    const content = fs.readFileSync(path.join(agentsDir, file), 'utf8');
+    // Match references like "SKILL.md §Section Name"
+    const refs = [...content.matchAll(/SKILL\.md\s+§([^|§\n]+)/g)];
+    for (const ref of refs) {
+      const sectionName = ref[1].trim().replace(/\s*\+\s*$/, '');
+      assert.ok(sectionHeadings.includes(sectionName),
+        `agents/${file} references non-existent SKILL.md section "§${sectionName}". Available: ${sectionHeadings.join(', ')}`);
+    }
+  }
+});

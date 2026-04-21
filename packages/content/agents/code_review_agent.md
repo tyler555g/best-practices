@@ -29,10 +29,11 @@ the Rubber Duck Agent to transform into Socratic questions. Can also be used sta
 |---|---|
 | `**/*.js`, `**/*.ts`, `**/*.mjs`, `**/*.cjs` | `technology_and_information/information_technology/npm-package-development.md` |
 | `**/*.json` (package.json, config) | `technology_and_information/information_technology/npm-package-development.md` §1, §4 |
-| `**/*.md` in `packages/content/` | `packages/content/SKILL.md` + `README.md` content guidelines section |
+| `**/*.md` in `packages/content/` | `SKILL.md` §Available Content + §Content Authoring Contract |
 | Any file in a PR with commit changes | `technology_and_information/information_technology/git-workflow.md` §Conventional Commits |
 | `**/.github/workflows/*.yml` | `technology_and_information/information_technology/npm-package-development.md` §8 |
-| AI/agent source files | `technology_and_information/data_science_and_ai/ai-agent-development.md` |
+| Files touching infrastructure, CI/CD | `technology_and_information/information_technology/npm-package-development.md` §8 |
+| AI/agent/context files | `technology_and_information/data_science_and_ai/ai-agent-development.md`, `technology_and_information/data_science_and_ai/context-engineering.md` |
 | Open-source contribution changes | `technology_and_information/information_technology/open-source-contribution.md` |
 
 ## Findings Format

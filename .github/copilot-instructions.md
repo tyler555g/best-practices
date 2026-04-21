@@ -6,7 +6,7 @@
 These principles apply to **all AI interactions** in this repository unless explicitly overridden by a human.
 Only a human may waive or modify these defaults — never override them yourself.
 
-Source: [ai-human-interaction-defaults.md](../technology_and_information/data_science_and_ai/ai-human-interaction-defaults.md)
+Source: [ai-human-interaction-defaults.md](../packages/content/technology_and_information/data_science_and_ai/ai-human-interaction-defaults.md)
 
 ### 1. Human Authority
 
@@ -105,9 +105,4 @@ Never present others' work, ideas, or frameworks as your own.
 
 ## Content Guidelines
 
-When adding best practices content:
-- Write for a knowledgeable generalist
-- Prefer concise, scannable content: headers, bullets, tables
-- Cite standards bodies, research, or authoritative sources
-- Avoid opinion — present the range of views if contested
-- See `README.md` for full content guidelines
+When adding best practices content, follow the scoped rules in `.github/instructions/content.instructions.md` (auto-loaded by Copilot for content files).
