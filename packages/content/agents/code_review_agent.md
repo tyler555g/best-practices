@@ -29,7 +29,7 @@ the Rubber Duck Agent to transform into Socratic questions. Can also be used sta
 |---|---|
 | `**/*.js`, `**/*.ts`, `**/*.mjs`, `**/*.cjs` | `technology_and_information/information_technology/npm-package-development.md` |
 | `**/*.json` (package.json, config) | `technology_and_information/information_technology/npm-package-development.md` §1, §4 |
-| `**/*.md` in `packages/content/` | `packages/content/SKILL.md` + `content.instructions.md` |
+| `**/*.md` in `packages/content/` | `SKILL.md` §Content Structure + §Available Content |
 | Any file in a PR with commit changes | `technology_and_information/information_technology/git-workflow.md` §Conventional Commits |
 | `**/.github/workflows/*.yml` | `technology_and_information/information_technology/npm-package-development.md` §8 |
 | Files touching infrastructure, CI/CD | `technology_and_information/information_technology/npm-package-development.md` §8 |

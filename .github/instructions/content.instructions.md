@@ -1,5 +1,8 @@
+---
+applyTo: "packages/content/**/*.md"
+---
+
 # Content Instructions
-<!-- Scope: packages/content/**/*.md -->
 
 ## Content Guidelines
 

@@ -105,4 +105,4 @@ Never present others' work, ideas, or frameworks as your own.
 
 ## Content Guidelines
 
-For content guidelines, see `content.instructions.md` in the repo root.
+When adding best practices content, follow the scoped rules in `.github/instructions/content.instructions.md` (auto-loaded by Copilot for content files).

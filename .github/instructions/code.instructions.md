@@ -1,5 +1,8 @@
+---
+applyTo: "**/*.js,**/*.cjs,**/*.mjs,**/*.json,scripts/**,bin/**,tests/**"
+---
+
 # Code Instructions
-<!-- Scope: **/*.js, **/*.cjs, **/*.mjs, **/*.json, scripts/**, bin/**, tests/** -->
 
 ## npm Package Conventions
 

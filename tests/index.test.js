@@ -201,8 +201,8 @@ test('context instruction files exist and are non-empty', () => {
   const repoRoot = path.join(__dirname, '..');
   const files = [
     '.github/copilot-instructions.md',
-    'content.instructions.md',
-    'code.instructions.md',
+    '.github/instructions/content.instructions.md',
+    '.github/instructions/code.instructions.md',
   ];
   for (const file of files) {
     const filePath = path.join(repoRoot, file);
@@ -212,4 +212,44 @@ test('context instruction files exist and are non-empty', () => {
     assert.ok(meaningful > 50, `Context file is too small: ${file} (${meaningful} chars)`);
   }
 });
+
+test('scoped instruction files have valid applyTo frontmatter', () => {
+  const repoRoot = path.join(__dirname, '..');
+  const instructionFiles = [
+    '.github/instructions/content.instructions.md',
+    '.github/instructions/code.instructions.md',
+  ];
+  for (const file of instructionFiles) {
+    const filePath = path.join(repoRoot, file);
+    const content = fs.readFileSync(filePath, 'utf8');
+    assert.match(content, /^---\n/, `${file} missing YAML frontmatter`);
+    assert.match(content, /applyTo:\s*".+"/, `${file} missing applyTo in frontmatter`);
+  }
+});
+
+test('agents/ directory is included in content package files', () => {
+  const contentPkg = JSON.parse(fs.readFileSync(path.join(CONTENT_ROOT, 'package.json'), 'utf8'));
+  assert.ok(contentPkg.files.includes('agents/'),
+    'packages/content/package.json files array must include agents/');
+});
+
+test('shipped agent docs only reference shipped files', () => {
+  const agentsDir = path.join(CONTENT_ROOT, 'agents');
+  if (!fs.existsSync(agentsDir)) return;
+  
+  // Patterns that indicate a reference to a repo-only file (not a glob pattern for matching)
+  const repoOnlyRefs = [
+    { pattern: /\b(?:see|load|read|reference)\s+.*?\.github\/instructions\//i, label: '.github/instructions/ file reference' },
+    { pattern: /\bcontent\.instructions\.md\b/, label: 'content.instructions.md (repo-only)' },
+    { pattern: /\bcode\.instructions\.md\b/, label: 'code.instructions.md (repo-only)' },
+  ];
+  
+  for (const file of fs.readdirSync(agentsDir)) {
+    if (!file.endsWith('.md')) continue;
+    const content = fs.readFileSync(path.join(agentsDir, file), 'utf8');
+    for (const { pattern, label } of repoOnlyRefs) {
+      assert.ok(!pattern.test(content),
+        `agents/${file} references repo-only artifact: ${label} — shipped agent docs must only reference shipped files`);
+    }
+  }
 });

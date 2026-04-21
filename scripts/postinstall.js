@@ -27,6 +27,8 @@ const SKILL_TARGETS_NAMED = [
   { dir: path.join(HOME, '.claude',   'skills'), name: 'Claude Code' },
 ];
 
+// Content dirs to install (only those that exist in the package)
+const CONTENT_DIRS = ['technology_and_information', 'agents'];
 const STANDALONE_FILES = ['SKILL.md', 'README.md', 'categories.md'];
 
 // --- Helpers (postinstall-specific) ---
