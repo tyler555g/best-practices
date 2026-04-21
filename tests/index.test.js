@@ -181,7 +181,7 @@ test('SKILL.md references all content files in subdirectories', () => {
         if (entry.isDirectory()) {
           walkDir(fullPath);
         } else if (entry.name.endsWith('.md')) {
-          // Match on relative path (e.g. "information_technology/git-workflow.md")
+          // Match on relative path (e.g. "technology_and_information/information_technology/git-workflow.md")
           // to avoid false positives from filename-only matches in prose.
           const relativePath = path.relative(CONTENT_ROOT, fullPath).replace(/\\/g, '/');
           if (!skillContent.includes(relativePath)) {
