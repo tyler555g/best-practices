@@ -85,7 +85,7 @@ git push origin main --force-with-lease
 
 Four commands. Run them as a unit when your goal is to keep your fork's `main` as an exact mirror of `upstream/main`.
 
-This hard-reset workflow is the **fork-main mirroring exception** — it is the only correct approach for maintaining an exact copy. For general branch syncing guidance, follow the merge-based workflow in [git-workflow.md](./git-workflow.md). Never merge upstream into your fork's main.
+This hard-reset workflow is the **fork-main mirroring exception** — it produces an exact copy and is the cleanest approach when your goal is a true mirror. For day-to-day syncing when `main` has not diverged, `git merge upstream/main` (typically a fast-forward) or [`gh repo sync`](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork) are also valid. Use the hard-reset path when you need to recover from divergence or guarantee an exact match. For general branch syncing guidance, see [git-workflow.md](./git-workflow.md).
 
 ### When to Sync
 
@@ -178,7 +178,7 @@ git diff upstream/main..feat/my-feature --stat
 
 ### Rebasing Feature Branches on Updated Upstream
 
-Only rebase **personal, unpublished** feature branches (branches that have not been shared with others). If a branch has already been pushed and others may have based work on it, use merge instead.
+Only rebase **personal, unpublished** feature branches — branches on your own fork that no one else has based work on. If a branch has been shared with collaborators or pulled by others, use merge instead. Force-pushing a rebased personal fork branch is acceptable because you are the sole consumer ([Pro Git — Rebasing](https://git-scm.com/book/en/v2/Git-Branching-Rebasing)).
 
 ```bash
 # After syncing main — fetch first to ensure upstream/main is current
@@ -189,7 +189,7 @@ git rebase upstream/main
 git push origin feat/my-feature --force-with-lease
 ```
 
-See [git-workflow.md](./git-workflow.md) for the merge-vs-rebase decision matrix.
+This is consistent with the "never rebase public/shared history" rule in [git-workflow.md](./git-workflow.md) — a personal fork branch with no downstream consumers is not shared history.
 
 ### Cherry-Picking From Declined PRs
 
