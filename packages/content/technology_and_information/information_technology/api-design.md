@@ -62,5 +62,4 @@ Designing robust, scalable, and maintainable APIs is essential for modern softwa
 - OpenAPI Specification (OAS)
 - Richardson Maturity Model
 - API security best practices
-- [API implementation best practices](api-implementation.md)
 - [Data partitioning best practices](data-partitioning.md)
