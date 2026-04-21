@@ -161,7 +161,7 @@ Each subdirectory should contain markdown files covering:
 - **Glossary** — key terminology defined clearly
 
 ### File naming convention
-Use **kebab-case** for all content files under `packages/content/`. Be descriptive.
+Use **kebab-case** for all new content files under `packages/content/`. Be descriptive. A small number of legacy files use underscores (e.g. `fork_and_branch_management.md`) and are grandfathered — rename them to kebab-case when making substantive edits.
 ```
 core-principles.md
 safety-standards.md
