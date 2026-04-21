@@ -168,7 +168,7 @@ DNS queries traditionally travel in plaintext, exposing user browsing patterns. 
 
 ## See Also
 
-- **DNSSEC Standards:** [RFC 4033–4035](https://www.rfc-editor.org/rfc/rfc4033) (DNSSEC Introduction), [RFC 6781](https://www.rfc-editor.org/rfc/rfc6781) (DNSSEC Operational Practices)
+- **DNSSEC Standards:** [RFC 4033](https://www.rfc-editor.org/rfc/rfc4033), [RFC 4034](https://www.rfc-editor.org/rfc/rfc4034), [RFC 4035](https://www.rfc-editor.org/rfc/rfc4035) (DNSSEC), [RFC 6781](https://www.rfc-editor.org/rfc/rfc6781) (DNSSEC Operational Practices)
 - **DNS Privacy:** [RFC 7858](https://www.rfc-editor.org/rfc/rfc7858) (DNS over TLS), [RFC 8484](https://www.rfc-editor.org/rfc/rfc8484) (DNS over HTTPS), [RFC 8932](https://www.rfc-editor.org/rfc/rfc8932) (Privacy for DNS Service Operators)
 - **Operational Guides:** [NIST SP 800-81-2](https://csrc.nist.gov/publications/detail/sp/800-81/2/final) (DNS Security Guide), [ICANN DNSSEC](https://www.icann.org/resources/pages/dnssec-what-is-it-why-is-it-important-2019-03-05-en)
 - **Organizations:** [DNS-OARC](https://www.dns-oarc.net/), [ISC BIND](https://www.isc.org/bind/)
