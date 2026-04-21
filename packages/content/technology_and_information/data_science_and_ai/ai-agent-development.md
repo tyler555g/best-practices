@@ -59,6 +59,29 @@ AI implements → you review → you decide it's ready → you tag maintainer
 - Contribute improvements back to upstream before publishing independently
 - See [open-source-contribution.md](open-source-contribution.md)
 
+## Copilot Skill Naming Convention
+
+### Convention
+
+| Location | Pattern | Example |
+|----------|---------|---------|
+| Repository name | `skill-<name>` | `skill-secret-management`, `skill-confluence-ops`, `skill-jira-ops` |
+| npm package name | `@<scope>/skill-<name>` | `@tyler.given/skill-secret-management` |
+| Local skill directory | `~/.copilot/skills/<name>/` | `~/.copilot/skills/secret-management/` |
+| SKILL.md `name` field | `<name>` | `secret-management` |
+| Confluence page title | `Skill \| <name>` | `Skill \| secret-management` |
+
+### Rules
+
+- The `<name>` portion must be **consistent across ALL locations**
+- Use **kebab-case** for names (lowercase, hyphens between words)
+- The `skill-` prefix appears only on repos and npm packages — not in the SKILL.md name or local directory
+- The Confluence title uses `Skill | ` prefix for discoverability in search
+
+### Why
+
+Consistent naming enables automation (install scripts, skill discovery, updates), prevents confusion when referencing skills across contexts, and makes it possible to map between repo ↔ package ↔ local install ↔ docs by convention alone.
+
 ## See Also
 - [12-Factor Agents](https://github.com/humanlayer/12-factor-agents) — HumanLayer
 - [12factor.net](https://12factor.net) — Original 12-Factor App (Heroku)
