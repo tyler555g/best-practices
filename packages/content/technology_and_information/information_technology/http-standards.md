@@ -179,9 +179,8 @@ Authorization: Basic <base64-credentials>
 
 ## See Also
 
-- **HTTP Specifications:** RFC 9110 (HTTP Semantics), RFC 9112 (HTTP/1.1), RFC 9113 (HTTP/2)
-- **Authentication:** RFC 7617 (Basic), RFC 6750 (Bearer Token), RFC 9110 §11 (HTTP Authentication, supersedes RFC 7235)
-- **Caching:** RFC 9111 (HTTP Caching, supersedes RFC 7234), Mozilla HTTP Caching Guide
-- **URI Design:** BCP 190 / RFC 8820 (URI Design and Ownership)
-- **Security:** OWASP REST Security Cheat Sheet, HTTP security headers guide
-- **Tools:** HTTP status code reference, curl documentation, Postman API testing
+- **HTTP Specifications:** [RFC 9110](https://www.rfc-editor.org/rfc/rfc9110) (HTTP Semantics), [RFC 9112](https://www.rfc-editor.org/rfc/rfc9112) (HTTP/1.1), [RFC 9113](https://www.rfc-editor.org/rfc/rfc9113) (HTTP/2)
+- **Authentication:** [RFC 7617](https://www.rfc-editor.org/rfc/rfc7617) (Basic), [RFC 6750](https://www.rfc-editor.org/rfc/rfc6750) (Bearer Token), [RFC 9110 §11](https://www.rfc-editor.org/rfc/rfc9110#section-11) (HTTP Authentication)
+- **Caching:** [RFC 9111](https://www.rfc-editor.org/rfc/rfc9111) (HTTP Caching), [Mozilla HTTP Caching Guide](https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching)
+- **URI Design:** [BCP 190 / RFC 8820](https://www.rfc-editor.org/rfc/rfc8820) (URI Design and Ownership)
+- **Security:** [OWASP REST Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/REST_Security_Cheat_Sheet.html)

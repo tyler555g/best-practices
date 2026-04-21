@@ -200,8 +200,7 @@ Multihomed networks connect to multiple ISPs for redundancy and performance. Add
 
 ## See Also
 
-- **Core Standards:** RFC 2827 (BCP 38), RFC 3704 (BCP 84), RFC 8704 (Enhanced Feasible-Path Unicast Reverse Path Forwarding)
-- **RPKI Resources:** RFC 6480 (RPKI Architecture), RFC 8210 (RPKI Router Protocol)
-- **Operational Guides:** MANRS (Mutually Agreed Norms for Routing Security), NIST cybersecurity framework
-- **Tools:** BGP monitoring tools, RPKI validation software, network monitoring systems
-- **Communities:** NANOG (North American Network Operators' Group), RIPE NCC, operational security forums
+- **Core Standards:** [RFC 2827 / BCP 38](https://www.rfc-editor.org/rfc/rfc2827) (Network Ingress Filtering), [RFC 3704 / BCP 84](https://www.rfc-editor.org/rfc/rfc3704) (Ingress Filtering for Multihomed Networks), [RFC 8704](https://www.rfc-editor.org/rfc/rfc8704) (Enhanced Feasible-Path uRPF)
+- **RPKI Resources:** [RFC 6480](https://www.rfc-editor.org/rfc/rfc6480) (RPKI Architecture), [RFC 8210](https://www.rfc-editor.org/rfc/rfc8210) (RPKI Router Protocol)
+- **Operational Guides:** [MANRS](https://www.manrs.org/) (Mutually Agreed Norms for Routing Security)
+- **Communities:** [NANOG](https://www.nanog.org/), [RIPE NCC](https://www.ripe.net/)

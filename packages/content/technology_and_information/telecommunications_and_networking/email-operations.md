@@ -55,7 +55,7 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=example.com;
 - `b=signature`: Cryptographic signature
 
 **DKIM Implementation:**
-- Use 2048-bit RSA keys minimum (4096-bit preferred for new deployments)
+- Use 2048-bit RSA keys minimum; verify receiver support and DNS transport implications before using larger keys ([RFC 6376 §3.3.3](https://www.rfc-editor.org/rfc/rfc6376#section-3.3.3))
 - Sign essential headers: From, To, Subject, Date, Message-ID
 - Implement key rotation (annually or bi-annually)
 - Use multiple selectors for operational flexibility
@@ -230,9 +230,7 @@ _smtp._tls.example.com. TXT "v=TLSRPTv1; rua=mailto:tlsrpt@example.com"
 
 ## See Also
 
-- **Core Standards:** RFC 7208 (SPF), RFC 6376 (DKIM), RFC 7489 (DMARC), RFC 8461 (MTA-STS)
-- **Security Standards:** RFC 8314 (Cleartext Deprecation), RFC 8460 (TLS Reporting)
-- **Implementation Guides:** M3AAWG best practices, Anti-Phishing Working Group resources
-- **Tools:** DMARC analyzers, SPF record validators, DKIM signature testers
-- **Organizations:** M3AAWG (Messaging Anti-Abuse Working Group), APWG (Anti-Phishing Working Group)
-- **Testing:** MX Toolbox, DMARC Analyzer, Mail-tester.com for comprehensive validation
+- **Core Standards:** [RFC 7208](https://www.rfc-editor.org/rfc/rfc7208) (SPF), [RFC 6376](https://www.rfc-editor.org/rfc/rfc6376) (DKIM), [RFC 7489](https://www.rfc-editor.org/rfc/rfc7489) (DMARC), [RFC 8461](https://www.rfc-editor.org/rfc/rfc8461) (MTA-STS)
+- **Security Standards:** [RFC 8314](https://www.rfc-editor.org/rfc/rfc8314) (Cleartext Deprecation), [RFC 8460](https://www.rfc-editor.org/rfc/rfc8460) (TLS Reporting)
+- **Implementation Guides:** [M3AAWG best practices](https://www.m3aawg.org/published-documents), [Anti-Phishing Working Group](https://apwg.org/)
+- **Testing:** [MX Toolbox](https://mxtoolbox.com/), [Mail-tester.com](https://www.mail-tester.com/)

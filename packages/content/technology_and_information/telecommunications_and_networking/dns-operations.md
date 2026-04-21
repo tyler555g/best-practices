@@ -62,7 +62,7 @@ DNS queries traditionally travel in plaintext, exposing user browsing patterns. 
 **DNS over TLS (DoT) - RFC 7858:**
 - Encrypts DNS queries using TLS on port 853
 - Provides authentication via TLS certificates
-- Suitable for stub-to-recursive and recursive-to-authoritative communication
+- Suitable for stub-to-recursive resolver communication
 
 **DNS over HTTPS (DoH) - RFC 8484:**
 - Tunnels DNS queries over HTTPS infrastructure
@@ -168,8 +168,7 @@ DNS queries traditionally travel in plaintext, exposing user browsing patterns. 
 
 ## See Also
 
-- **DNSSEC Standards:** RFC 4033-4035 (DNSSEC Introduction), RFC 6781 (DNSSEC Operational Practices)
-- **DNS Privacy:** RFC 7858 (DNS over TLS), RFC 8484 (DNS over HTTPS), RFC 8932 (Privacy Service Operators)
-- **Operational Guides:** NIST SP 800-81-2 (DNS Security Guide), ICANN DNSSEC guidelines
-- **Tools:** DNSSEC validation tools, dig command reference, DNS privacy test sites
-- **Organizations:** DNS-OARC, ICANN DNSSEC resources, ISC BIND documentation
+- **DNSSEC Standards:** [RFC 4033–4035](https://www.rfc-editor.org/rfc/rfc4033) (DNSSEC Introduction), [RFC 6781](https://www.rfc-editor.org/rfc/rfc6781) (DNSSEC Operational Practices)
+- **DNS Privacy:** [RFC 7858](https://www.rfc-editor.org/rfc/rfc7858) (DNS over TLS), [RFC 8484](https://www.rfc-editor.org/rfc/rfc8484) (DNS over HTTPS), [RFC 8932](https://www.rfc-editor.org/rfc/rfc8932) (Privacy for DNS Service Operators)
+- **Operational Guides:** [NIST SP 800-81-2](https://csrc.nist.gov/publications/detail/sp/800-81/2/final) (DNS Security Guide), [ICANN DNSSEC](https://www.icann.org/resources/pages/dnssec-what-is-it-why-is-it-important-2019-03-05-en)
+- **Organizations:** [DNS-OARC](https://www.dns-oarc.net/), [ISC BIND](https://www.isc.org/bind/)

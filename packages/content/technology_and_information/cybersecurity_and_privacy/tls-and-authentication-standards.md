@@ -7,8 +7,8 @@ Transport Layer Security (TLS) and authentication protocols are critical foundat
 ### Protocol Versions
 
 **Required Protocols:**
-- **TLS 1.2**: MUST be supported for broad compatibility
-- **TLS 1.3**: SHOULD be supported and MUST be preferred when available
+- **TLS 1.2**: Support for broad compatibility ([BCP 195 / RFC 9325](https://www.rfc-editor.org/rfc/rfc9325))
+- **TLS 1.3**: Prefer when available; new transport protocols should use TLS 1.3 only ([RFC 8446](https://www.rfc-editor.org/rfc/rfc8446))
 
 **Prohibited Protocols:**
 - SSL 2.0, SSL 3.0: MUST NOT be negotiated (fundamentally insecure)
@@ -151,7 +151,7 @@ JSON Web Tokens require careful handling to prevent common vulnerabilities. Thes
 
 ## See Also
 
-- **Standards:** RFC 8446 (TLS 1.3), RFC 7636 (PKCE), RFC 7519 (JWT)
-- **Security Guides:** OWASP TLS Configuration Cheat Sheet, Mozilla SSL Configuration Generator
-- **Tools:** SSL Labs SSL Test, oauth.net security guidelines
-- **Implementation:** Let's Encrypt for certificates, Auth0 and Okta developer guides
+- **Standards:** [RFC 8446](https://www.rfc-editor.org/rfc/rfc8446) (TLS 1.3), [BCP 195 / RFC 9325](https://www.rfc-editor.org/rfc/rfc9325) (TLS deployment recommendations), [RFC 7636](https://www.rfc-editor.org/rfc/rfc7636) (PKCE), [RFC 7519](https://www.rfc-editor.org/rfc/rfc7519) (JWT), [BCP 225 / RFC 8725](https://www.rfc-editor.org/rfc/rfc8725) (JWT best practices), [BCP 240 / RFC 9700](https://www.rfc-editor.org/rfc/rfc9700) (OAuth 2.0 security)
+- **Security Guides:** [OWASP TLS Configuration Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/TLS_Cipher_String_Cheat_Sheet.html), [Mozilla SSL Configuration Generator](https://ssl-config.mozilla.org/)
+- **Tools:** [SSL Labs SSL Test](https://www.ssllabs.com/ssltest/), [oauth.net](https://oauth.net/) security guidelines
+- **Implementation:** [Let's Encrypt](https://letsencrypt.org/) for certificates
