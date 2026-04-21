@@ -24,6 +24,7 @@ The knowledge base ships only populated domains. Currently available:
 ### technology_and_information/
 - `information_technology/git-workflow.md` — Git workflow standards, Conventional Commits
 - `information_technology/open-source-contribution.md` — Open source contribution best practices
+- `information_technology/powerbi-semantic-model-best-practices.md` — Power BI semantic model design, incremental refresh, TMDL, and deployment
 - `data_science_and_ai/ai-agent-development.md` — AI-assisted coding workflow, feature branches, draft PRs
 - `data_science_and_ai/ai-human-interaction-defaults.md` — 10 universal rules for AI-human interaction
 
