@@ -280,6 +280,9 @@ test('postinstall copies agents/ directory', () => {
   const content = fs.readFileSync(postinstall, 'utf8');
   assert.ok(content.includes("'agents'"),
     'postinstall.js CONTENT_DIRS must include agents for shipping agent docs');
+  // Verify copyDirSync is imported (prevents ReferenceError at runtime)
+  assert.ok(content.includes('copyDirSync'),
+    'postinstall.js must import copyDirSync to copy CONTENT_DIRS');
 });
 
 test('agent docs only reference existing SKILL.md sections', () => {
