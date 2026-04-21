@@ -105,9 +105,4 @@ Never present others' work, ideas, or frameworks as your own.
 
 ## Content Guidelines
 
-When adding best practices content:
-- Write for a knowledgeable generalist
-- Prefer concise, scannable content: headers, bullets, tables
-- Cite standards bodies, research, or authoritative sources
-- Avoid opinion — present the range of views if contested
-- See `README.md` for full content guidelines
+For content guidelines, see `content.instructions.md` in the repo root.
