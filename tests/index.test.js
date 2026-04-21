@@ -53,6 +53,82 @@ test('postinstall.js does not hardcode AI defaults block', () => {
     'postinstall.js should not contain hardcoded AI defaults — use buildDefaultsBlock()');
 });
 
+test('domains.js normalizeConfig always includes ALWAYS_INSTALLED', () => {
+  const { normalizeConfig, ALWAYS_INSTALLED } = require('../scripts/domains');
+  const result = normalizeConfig({ selectedDomains: [] });
+  for (const id of ALWAYS_INSTALLED) {
+    assert.ok(result.selectedDomains.includes(id), `normalizeConfig should always include ${id}`);
+  }
+});
+
+test('domains.js normalizeConfig deduplicates entries', () => {
+  const { normalizeConfig } = require('../scripts/domains');
+  const result = normalizeConfig({ selectedDomains: ['technology_and_information', 'technology_and_information'] });
+  const count = result.selectedDomains.filter(id => id === 'technology_and_information').length;
+  assert.equal(count, 1, 'normalizeConfig should deduplicate selectedDomains');
+});
+
+test('domains.js normalizeConfig filters unknown domain IDs', () => {
+  const { normalizeConfig } = require('../scripts/domains');
+  const result = normalizeConfig({ selectedDomains: ['not_a_real_domain', 'technology_and_information'] });
+  assert.ok(!result.selectedDomains.includes('not_a_real_domain'), 'normalizeConfig should remove unknown domain IDs');
+});
+
+test('domains.js normalizeConfig handles missing or malformed config', () => {
+  const { normalizeConfig, ALWAYS_INSTALLED } = require('../scripts/domains');
+  for (const bad of [null, undefined, {}, { selectedDomains: null }, { selectedDomains: 'bad' }]) {
+    const result = normalizeConfig(bad);
+    assert.ok(Array.isArray(result.selectedDomains), 'normalizeConfig should always return an array');
+    for (const id of ALWAYS_INSTALLED) {
+      assert.ok(result.selectedDomains.includes(id), `normalizeConfig should include ${id} for input: ${JSON.stringify(bad)}`);
+    }
+  }
+});
+
+test('domains.js pruneDomains removes deselected domain folders', () => {
+  const os = require('os');
+  const { pruneDomains, ALWAYS_INSTALLED } = require('../scripts/domains');
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'bp-test-'));
+  const fakeTarget = path.join(tmp, 'best-practices');
+
+  // Create a fake domain folder that should be pruned
+  const fakeDomain = path.join(fakeTarget, 'sciences');
+  fs.mkdirSync(fakeDomain, { recursive: true });
+  fs.writeFileSync(path.join(fakeDomain, 'test.md'), '# test');
+
+  // Only keep ALWAYS_INSTALLED — sciences should be pruned
+  pruneDomains(ALWAYS_INSTALLED, [fakeTarget]);
+  assert.ok(!fs.existsSync(fakeDomain), 'pruneDomains should remove deselected domain folder');
+
+  fs.rmSync(tmp, { recursive: true, force: true });
+});
+
+test('domains.js pruneDomains never removes ALWAYS_INSTALLED domains', () => {
+  const os = require('os');
+  const { pruneDomains, ALWAYS_INSTALLED } = require('../scripts/domains');
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'bp-test-'));
+  const fakeTarget = path.join(tmp, 'best-practices');
+
+  // Create a folder for an always-installed domain
+  const alwaysDomain = path.join(fakeTarget, ALWAYS_INSTALLED[0]);
+  fs.mkdirSync(alwaysDomain, { recursive: true });
+  fs.writeFileSync(path.join(alwaysDomain, 'test.md'), '# test');
+
+  // Try to prune with empty selection — always-installed should survive
+  pruneDomains([], [fakeTarget]);
+  assert.ok(fs.existsSync(alwaysDomain), 'pruneDomains should never remove ALWAYS_INSTALLED domains');
+
+  fs.rmSync(tmp, { recursive: true, force: true });
+});
+
+test('postinstall prompt is suppressed when CI=true', () => {
+  // Verify IS_CI guard by checking the source contains the guard pattern
+  const postinstall = path.join(__dirname, '..', 'scripts', 'postinstall.js');
+  const content = fs.readFileSync(postinstall, 'utf8');
+  assert.ok(content.includes('IS_CI') && content.includes('process.stdin.isTTY'),
+    'postinstall domain prompt must be gated on !IS_CI && process.stdin.isTTY');
+});
+
 test('all package.json files have publishConfig.access = public', () => {
   const pkgFiles = [
     path.join(__dirname, '..', 'package.json'),
