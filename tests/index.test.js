@@ -156,8 +156,8 @@ test('all package.json files have engines.node >= 22', () => {
 });
 
 test('bin/best-practices.js parses and runs without error', () => {
-  const { execSync } = require('child_process');
+  const { execFileSync } = require('child_process');
   const binPath = path.join(__dirname, '..', 'bin', 'best-practices.js');
-  const output = execSync(`node ${binPath}`, { encoding: 'utf8' });
+  const output = execFileSync(process.execPath, [binPath], { encoding: 'utf8' });
   assert.ok(output.includes('Usage:'), 'CLI should print usage instructions');
 });

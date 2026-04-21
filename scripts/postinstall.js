@@ -9,6 +9,7 @@ const readline = require('readline');
 
 const {
   CONTENT_ROOT,
+  copyDirSync,
   loadConfig,
   saveConfig,
   detectTargets,
@@ -150,14 +151,10 @@ async function main() {
       copyFileSync(src, dest);
     }
 
-    // Copy agents/ directory
+    // Copy agents/ directory (recursive — handles nested subdirs)
     const agentsSrc = path.join(CONTENT_ROOT, 'agents');
     if (fs.existsSync(agentsSrc)) {
-      const agentsDest = path.join(skillDir, 'agents');
-      fs.mkdirSync(agentsDest, { recursive: true });
-      for (const entry of fs.readdirSync(agentsSrc)) {
-        copyFileSync(path.join(agentsSrc, entry), path.join(agentsDest, entry));
-      }
+      copyDirSync(agentsSrc, path.join(skillDir, 'agents'));
     }
 
     console.log(`✅ ${isFirstInstall ? 'Installed' : 'Updated'} best-practices skill → ${target.name} (${skillDir})`);
