@@ -51,6 +51,32 @@ function hashContent(content) {
   return crypto.createHash('sha256').update(content, 'utf8').digest('hex');
 }
 
+// Recursively collect { upstream, disk } manifest entries for all files under srcDir.
+// relPath keys use forward-slash separators relative to the skill root (e.g. "agents/foo.md").
+function collectManifestEntries(srcDir, destDir, prefix) {
+  const entries = {};
+  if (!fs.existsSync(srcDir)) return entries;
+  for (const entry of fs.readdirSync(srcDir, { withFileTypes: true })) {
+    const relPath = prefix ? `${prefix}/${entry.name}` : entry.name;
+    const srcPath = path.join(srcDir, entry.name);
+    const destPath = path.join(destDir, entry.name);
+    if (entry.isDirectory()) {
+      Object.assign(entries, collectManifestEntries(srcPath, destPath, relPath));
+    } else {
+      try {
+        const srcHash = hashContent(fs.readFileSync(srcPath, 'utf8'));
+        const diskHash = fs.existsSync(destPath)
+          ? hashContent(fs.readFileSync(destPath, 'utf8'))
+          : srcHash;
+        entries[relPath] = { upstream: srcHash, disk: diskHash };
+      } catch {
+        // skip unreadable files (e.g. binary assets)
+      }
+    }
+  }
+  return entries;
+}
+
 function readManifest(skillDir) {
   const manifestPath = path.join(skillDir, MANIFEST_FILE);
   if (!fs.existsSync(manifestPath)) return { files: {} };
@@ -359,14 +385,6 @@ async function main() {
       }
     }
 
-    // Write updated manifest
-    writeManifest(skillDir, {
-      packageName: pkg.name,
-      packageVersion: pkg.version,
-      installedAt: new Date().toISOString(),
-      files: newManifestFiles,
-    });
-
     // Copy agents/ directory (recursive — always overwritten; package-owned).
     const agentsSrc = path.join(CONTENT_ROOT, 'agents');
     const agentsDest = path.join(skillDir, 'agents');
@@ -375,7 +393,17 @@ async function main() {
         fs.rmSync(agentsDest, { recursive: true });
       }
       copyDirSync(agentsSrc, agentsDest);
+      // Track agents files in manifest so update-detection covers them.
+      Object.assign(newManifestFiles, collectManifestEntries(agentsSrc, agentsDest, 'agents'));
     }
+
+    // Write updated manifest (standalone files + agents).
+    writeManifest(skillDir, {
+      packageName: pkg.name,
+      packageVersion: pkg.version,
+      installedAt: new Date().toISOString(),
+      files: newManifestFiles,
+    });
 
     console.log(`✅ ${isFirstInstall ? 'Installed' : 'Updated'} best-practices skill → ${target.name} (${skillDir})`);
     skillsInstalled++;
@@ -384,6 +412,24 @@ async function main() {
   // Restore all previously selected domains (respects saved config, not just hardcoded list).
   if (targets.length > 0) {
     installDomains(config.selectedDomains, targets);
+
+    // Patch each target's manifest to include domain content files so that
+    // update-detection covers them (not just the standalone files + agents).
+    for (const targetDir of targets) {
+      const domainEntries = {};
+      for (const domainId of config.selectedDomains) {
+        const srcDir = path.join(CONTENT_ROOT, domainId);
+        const destDir = path.join(targetDir, domainId);
+        Object.assign(domainEntries, collectManifestEntries(srcDir, destDir, domainId));
+      }
+      if (Object.keys(domainEntries).length > 0) {
+        const existing = readManifest(targetDir);
+        writeManifest(targetDir, {
+          ...existing,
+          files: { ...existing.files, ...domainEntries },
+        });
+      }
+    }
   }
 
   // --- 2. Inject AI-human defaults into ~/.claude/CLAUDE.md ---
