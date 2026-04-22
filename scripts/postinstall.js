@@ -191,13 +191,14 @@ async function installStandaloneFile(srcPath, destPath, options) {
     return { action: 'replaced', newEntry: { upstream: srcHash, disk: srcHash } };
   }
 
-  // Case C: package updated, user hasn't changed the file — silent update
-  if (
-    manifestEntry &&
-    existingHash === manifestEntry.disk &&
-    srcHash !== manifestEntry.upstream &&
-    manifestEntry.disk === manifestEntry.upstream
-  ) {
+  // Case C: package updated, user hasn't changed the file — silent update.
+  // Safe only when the prior install state was clean (disk===upstream) and disk
+  // is still unchanged since then.
+  const hasManifest = Boolean(manifestEntry);
+  const wasCleanInstallState = hasManifest && manifestEntry.disk === manifestEntry.upstream;
+  const userUnchangedSinceLastInstall = hasManifest && existingHash === manifestEntry.disk;
+  const packageUpdatedSinceLastInstall = hasManifest && srcHash !== manifestEntry.upstream;
+  if (wasCleanInstallState && userUnchangedSinceLastInstall && packageUpdatedSinceLastInstall) {
     fs.writeFileSync(destPath, srcContent, 'utf8');
     return { action: 'updated', newEntry: { upstream: srcHash, disk: srcHash } };
   }
