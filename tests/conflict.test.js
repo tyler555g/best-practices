@@ -13,6 +13,7 @@ const {
   writeManifest,
   defaultConflictPrompt,
   installStandaloneFile,
+  mergeManifestFilesForDomains,
 } = require('../scripts/postinstall');
 
 function makeTempDir(prefix) {
@@ -161,6 +162,38 @@ test('Case C: package updated, user unchanged — silently updates file', async 
 
   assert.equal(action, 'updated');
   assert.equal(fs.readFileSync(destPath, 'utf8'), newPkgContent);
+});
+
+test('Case C guard: package update after prior keep prompts instead of silently overwriting', async () => {
+  const srcDir = makeTempDir('bp-src-');
+  const dstDir = makeTempDir('bp-dst-');
+  const oldPkgContent = '# old package\n';
+  const newPkgContent = '# new package\n';
+  const userContent = '# user kept version\n';
+  const srcPath = writeTmp(srcDir, 'SKILL.md', newPkgContent);
+  const destPath = writeTmp(dstDir, 'SKILL.md', userContent);
+
+  // Simulate state after a previous conflict where user kept their own version.
+  const manifestEntry = {
+    upstream: hashContent(oldPkgContent),
+    disk: hashContent(userContent),
+  };
+
+  let prompted = false;
+  const mockPrompt = async (_relPath, conflictType) => {
+    prompted = true;
+    assert.equal(conflictType, 'conflict');
+    return 'keep';
+  };
+
+  const { action } = await installStandaloneFile(srcPath, destPath, {
+    promptFn: mockPrompt,
+    manifestEntry,
+  });
+
+  assert.equal(action, 'kept');
+  assert.equal(prompted, true, 'should prompt when prior keep/amend diverged disk from upstream');
+  assert.equal(fs.readFileSync(destPath, 'utf8'), userContent);
 });
 
 // ── installStandaloneFile — Case D ───────────────────────────────────────────
@@ -352,6 +385,31 @@ test('manifests are written independently per target directory', () => {
   assert.equal(m1.files['SKILL.md'].upstream, 'aaa');
   assert.equal(m2.packageVersion, '2.0.0');
   assert.equal(m2.files['SKILL.md'].disk, 'ccc');
+});
+
+test('mergeManifestFilesForDomains removes stale domain entries before adding fresh ones', () => {
+  const existingFiles = {
+    'technology_and_information/old.md': { upstream: 'u-old', disk: 'd-old' },
+    'agents/agent.md': { upstream: 'u-agent', disk: 'd-agent' },
+    'SKILL.md': { upstream: 'u-skill', disk: 'd-skill' },
+  };
+  const domainEntries = {
+    'technology_and_information/new.md': { upstream: 'u-new', disk: 'd-new' },
+  };
+
+  const merged = mergeManifestFilesForDomains(
+    existingFiles,
+    domainEntries,
+    ['technology_and_information']
+  );
+
+  assert.equal(merged['technology_and_information/old.md'], undefined);
+  assert.deepEqual(
+    merged['technology_and_information/new.md'],
+    domainEntries['technology_and_information/new.md']
+  );
+  assert.deepEqual(merged['agents/agent.md'], existingFiles['agents/agent.md']);
+  assert.deepEqual(merged['SKILL.md'], existingFiles['SKILL.md']);
 });
 
 // ── require.main guard ───────────────────────────────────────────────────────

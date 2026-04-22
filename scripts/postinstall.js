@@ -77,6 +77,17 @@ function collectManifestEntries(srcDir, destDir, prefix) {
   return entries;
 }
 
+function mergeManifestFilesForDomains(existingFiles, domainEntries, selectedDomains) {
+  const files = existingFiles || {};
+  const domainPrefixes = selectedDomains.map(domainId => `${domainId}/`);
+  const retainedFiles = Object.fromEntries(
+    Object.entries(files).filter(([filePath]) =>
+      !domainPrefixes.some(prefix => filePath.startsWith(prefix))
+    )
+  );
+  return { ...retainedFiles, ...domainEntries };
+}
+
 function readManifest(skillDir) {
   const manifestPath = path.join(skillDir, MANIFEST_FILE);
   if (!fs.existsSync(manifestPath)) return { files: {} };
@@ -181,7 +192,12 @@ async function installStandaloneFile(srcPath, destPath, options) {
   }
 
   // Case C: package updated, user hasn't changed the file — silent update
-  if (manifestEntry && existingHash === manifestEntry.disk && srcHash !== manifestEntry.upstream) {
+  if (
+    manifestEntry &&
+    existingHash === manifestEntry.disk &&
+    srcHash !== manifestEntry.upstream &&
+    manifestEntry.disk === manifestEntry.upstream
+  ) {
     fs.writeFileSync(destPath, srcContent, 'utf8');
     return { action: 'updated', newEntry: { upstream: srcHash, disk: srcHash } };
   }
@@ -422,13 +438,11 @@ async function main() {
         const destDir = path.join(targetDir, domainId);
         Object.assign(domainEntries, collectManifestEntries(srcDir, destDir, domainId));
       }
-      if (Object.keys(domainEntries).length > 0) {
-        const existing = readManifest(targetDir);
-        writeManifest(targetDir, {
-          ...existing,
-          files: { ...existing.files, ...domainEntries },
-        });
-      }
+      const existing = readManifest(targetDir);
+      writeManifest(targetDir, {
+        ...existing,
+        files: mergeManifestFilesForDomains(existing.files, domainEntries, config.selectedDomains),
+      });
     }
   }
 
@@ -493,4 +507,5 @@ module.exports = {
   writeManifest,
   defaultConflictPrompt,
   installStandaloneFile,
+  mergeManifestFilesForDomains,
 };
